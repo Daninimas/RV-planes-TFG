@@ -51,7 +51,6 @@ public class PlaneJoystick : MonoBehaviour
     {
         joystickNormal.x = Utils.normalizeValues(-1, 1, joystickJoint.lowAngularXLimit.limit, joystickJoint.highAngularXLimit.limit, Utils.WrapAngle(joystickTransform.rotation.eulerAngles.x));
         joystickNormal.y = Utils.normalizeValues(-1, 1, -joystickJoint.angularZLimit.limit, joystickJoint.angularZLimit.limit, Utils.WrapAngle(joystickTransform.rotation.eulerAngles.z));
-        //Debug.Log("holaaaaaaaaaaaa");
     }
 
 
