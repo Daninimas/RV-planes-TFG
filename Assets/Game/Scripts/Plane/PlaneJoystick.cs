@@ -10,6 +10,11 @@ public class PlaneJoystick : MonoBehaviour
     private bool returnToTargetRotation = true;
     public float returningRotationVelocity = 0f;
 
+    /// <summary>
+    /// Vector normalizado entre 1 y -1 con la posicion de la palanca y sus limites
+    /// </summary>
+    public Vector2 joystickNormal = new Vector2();
+
     void Start()
     {
         if (joystickTransform == null)
@@ -35,29 +40,51 @@ public class PlaneJoystick : MonoBehaviour
             // Rotate our transform a step closer to the target's.
             transform.rotation = Quaternion.RotateTowards(transform.rotation, joystickJoint.targetRotation, step);
         }
+
+        normalizeJoystickValue();
     }
 
+    /// <summary>
+    /// Calcula la normal entre -1 y 1 de la palanca en los dos ejes
+    /// </summary>
+    private void normalizeJoystickValue()
+    {
+        joystickNormal.x = Utils.normalizeValues(-1, 1, joystickJoint.lowAngularXLimit.limit, joystickJoint.highAngularXLimit.limit, Utils.WrapAngle(joystickTransform.rotation.eulerAngles.x));
+        joystickNormal.y = Utils.normalizeValues(-1, 1, -joystickJoint.angularZLimit.limit, joystickJoint.angularZLimit.limit, Utils.WrapAngle(joystickTransform.rotation.eulerAngles.z));
+        //Debug.Log("holaaaaaaaaaaaa");
+    }
+
+
+    /// <summary>
+    /// When the joystick is picked
+    /// </summary>
     public void OnSelect()
     {
-        // When the joystick picked
         Debug.Log("On select event");
         returnToTargetRotation = false;
     }
+    /// <summary>
+    /// When the joystick is released
+    /// </summary>
     public void OnDeselect()
     {
-        // When the joystick is release
         Debug.Log("On deselect event");
         returnToTargetRotation = true;
     }
 
+
+    /// <summary>
+    /// When trigger is pressed and it is been picked
+    /// </summary>
     public void OnActivate()
     {
-        // When trigger pressed and it is been picked
         Debug.Log("On activate event");
     }
+    /// <summary>
+    /// When trigger is released and it is been picked
+    /// </summary>
     public void OnDeactivate()
     {
-        // When trigger released and it is been picked
         Debug.Log("On deactivate event");
     }
 }

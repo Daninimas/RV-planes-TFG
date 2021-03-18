@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Assets\Game\Scripts\Input\InputManager.cs" />
     <Compile Include="Assets\Game\Scripts\Plane\PlaneJoystick.cs" />
+    <Compile Include="Assets\Game\Scripts\Utils\Utils.cs" />
     <Reference Include="UnityEngine">
       <HintPath>D:/Programas/Unity Editor/2019.4.21f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -685,7 +686,16 @@
       <HintPath>D:/Proyectos/Unity/TFG/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup></ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="IngameDebugConsole.Runtime.csproj">
+      <Project>{A124AE72-C504-ADBB-2A87-AFF631119D50}</Project>
+      <Name>IngameDebugConsole.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="IngameDebugConsole.Editor.csproj">
+      <Project>{1802316F-7EF3-19DD-48DC-A97A58EECD39}</Project>
+      <Name>IngameDebugConsole.Editor</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
