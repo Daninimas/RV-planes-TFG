@@ -250,6 +250,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc7df0c70134d84a8a045de4bde949d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  handModelPrefab: {fileID: 109434732395284509, guid: 65847589f926b734d9eaed6e25f0046b,
+    type: 3}
 --- !u!1 &3015822198924021324
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,6 +264,7 @@ GameObject:
   - component: {fileID: 3015822198924021321}
   - component: {fileID: 7233061453594863616}
   - component: {fileID: 9033250583450259247}
+  - component: {fileID: 1185472902}
   m_Layer: 0
   m_Name: RightHand Controller
   m_TagString: Untagged
@@ -487,6 +490,20 @@ MonoBehaviour:
   m_PlayHapticsOnHoverCanceled: 0
   m_HapticHoverCancelIntensity: 0
   m_HapticHoverCancelDuration: 0
+--- !u!114 &1185472902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3015822198924021324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc7df0c70134d84a8a045de4bde949d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handModelPrefab: {fileID: 5686134208185362930, guid: 1fd3a7c43c8190f4d8c167ebde694364,
+    type: 3}
 --- !u!1 &3015822199014742988
 GameObject:
   m_ObjectHideFlags: 0
@@ -818,12 +835,12 @@ MonoBehaviour:
     m_Name: Main Camera - TPD - Position
     m_Type: 0
     m_ExpectedControlType: Vector3
-    m_Id: 
+    m_Id: 09129b26-3509-4d98-802f-b230b1115c6a
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings:
     - m_Name: 
-      m_Id: 
+      m_Id: ea7c142e-27fe-4261-b6a6-4d6eb69069d9
       m_Path: <XRHMD>/centerEyePosition
       m_Interactions: 
       m_Processors: 
@@ -834,12 +851,12 @@ MonoBehaviour:
     m_Name: Main Camera - TPD - Rotation
     m_Type: 0
     m_ExpectedControlType: Quaternion
-    m_Id: 
+    m_Id: 45832781-3c84-458b-80b0-30a05457a9ad
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings:
     - m_Name: 
-      m_Id: 
+      m_Id: 3528914b-5447-4f57-a729-954607353cd7
       m_Path: <XRHMD>/centerEyeRotation
       m_Interactions: 
       m_Processors: 

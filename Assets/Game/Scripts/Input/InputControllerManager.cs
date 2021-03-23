@@ -5,9 +5,15 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class InputManager : MonoBehaviour
+public class InputControllerManager : MonoBehaviour
 {
     private ActionBasedController controller;
+
+    public GameObject handModelPrefab;
+    private GameObject spawnedHandModel; // The hand gameObject when it is spawned
+
+    // For the hand animation
+    private Animator handAnimator;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +26,10 @@ public class InputManager : MonoBehaviour
         bool isActionPressed = controller.selectAction.action.ReadValue<bool>();
         // Cuando se pulsa un boton, se llama a una funcion
         controller.selectAction.action.performed += PulsadoBotonSelect;
+
+        spawnedHandModel = Instantiate(handModelPrefab, transform);
+
+        handAnimator = spawnedHandModel.GetComponent<Animator>();
     }
 
     private void PulsadoBotonSelect(InputAction.CallbackContext obj)
@@ -30,6 +40,15 @@ public class InputManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        UpdateHandAnimation();
+    }
+
+    void UpdateHandAnimation()
+    {
+        float triggerValue = controller.activateAction.action.ReadValue<float>();
+        handAnimator.SetFloat("Trigger", triggerValue);
+
+        float actionValue = controller.selectAction.action.ReadValue<float>();
+        handAnimator.SetFloat("Grip", actionValue);
     }
 }

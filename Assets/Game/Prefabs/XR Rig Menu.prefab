@@ -1284,3 +1284,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc7df0c70134d84a8a045de4bde949d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  handModelPrefab: {fileID: 0}

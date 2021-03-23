@@ -189,26 +189,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3015822200032378691, guid: 859fa8fd627981140b6c32d66134b8fb,
-        type: 3}
-      propertyPath: m_PositionAction.m_Id
-      value: 09129b26-3509-4d98-802f-b230b1115c6a
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015822200032378691, guid: 859fa8fd627981140b6c32d66134b8fb,
-        type: 3}
-      propertyPath: m_RotationAction.m_Id
-      value: 45832781-3c84-458b-80b0-30a05457a9ad
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015822200032378691, guid: 859fa8fd627981140b6c32d66134b8fb,
-        type: 3}
-      propertyPath: m_PositionAction.m_SingletonActionBindings.Array.data[0].m_Id
-      value: ea7c142e-27fe-4261-b6a6-4d6eb69069d9
-      objectReference: {fileID: 0}
-    - target: {fileID: 3015822200032378691, guid: 859fa8fd627981140b6c32d66134b8fb,
-        type: 3}
-      propertyPath: m_RotationAction.m_SingletonActionBindings.Array.data[0].m_Id
-      value: 3528914b-5447-4f57-a729-954607353cd7
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 859fa8fd627981140b6c32d66134b8fb, type: 3}
 --- !u!114 &100423532 stripped
