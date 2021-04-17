@@ -15,6 +15,8 @@ public class InputControllerManager : MonoBehaviour
     // For the hand animation
     private Animator handAnimator;
 
+    public Vector2 joystickNormal = new Vector2();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,13 +36,14 @@ public class InputControllerManager : MonoBehaviour
 
     private void PulsadoBotonSelect(InputAction.CallbackContext obj)
     {
-        Debug.Log("Boton select pulsado");
+        //Debug.Log("Boton select pulsado: " + obj.ReadValue<float>());
     }
 
     // Update is called once per frame
     void Update()
     {
         UpdateHandAnimation();
+        UpdateJoystickInput();
     }
 
     void UpdateHandAnimation()
@@ -50,5 +53,13 @@ public class InputControllerManager : MonoBehaviour
 
         float actionValue = controller.selectAction.action.ReadValue<float>();
         handAnimator.SetFloat("Grip", actionValue);
+    }
+
+    void UpdateJoystickInput()
+    {
+        String rotateValue = controller.rotationAction.action.ToString();
+
+        String positionValue = controller.positionAction.action.ToString();
+        Debug.Log("rotateValue: " + rotateValue.ToString()+ " positionValue: " + positionValue.ToString());
     }
 }

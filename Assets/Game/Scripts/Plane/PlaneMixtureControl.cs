@@ -38,6 +38,6 @@ public class PlaneMixtureControl : MonoBehaviour
     private void normalizeMixtureControlValue()
     {
         mixtureControlNormal = Utils.normalizeValues(1, 0, mixtureControlJoint.limits.min, mixtureControlJoint.limits.max, Utils.WrapAngle(mixtureControlTransform.rotation.eulerAngles.x));
-        Debug.Log("mixtureControlNormal: " + mixtureControlNormal);
+        //Debug.Log("mixtureControlNormal: " + mixtureControlNormal);
     }
 }
