@@ -60,6 +60,6 @@ public class InputControllerManager : MonoBehaviour
         String rotateValue = controller.rotationAction.action.ToString();
 
         String positionValue = controller.positionAction.action.ToString();
-        Debug.Log("rotateValue: " + rotateValue.ToString()+ " positionValue: " + positionValue.ToString());
+        //Debug.Log("rotateValue: " + rotateValue.ToString()+ " positionValue: " + positionValue.ToString());
     }
 }

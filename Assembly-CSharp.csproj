@@ -69,6 +69,7 @@
     <Compile Include="Assets\Game\Scripts\Plane\PlaneMixtureControl.cs" />
     <Compile Include="Assets\Game\Scripts\Plane\PlanePhysics.cs" />
     <Compile Include="Assets\Game\Scripts\Utils\Utils.cs" />
+    <Compile Include="Assets\Game\Scripts\Utils\XRGrabInteractableExtended.cs" />
     <Reference Include="UnityEngine">
       <HintPath>D:/Programas/Unity Editor/2019.4.21f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
