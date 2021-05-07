@@ -43,7 +43,7 @@ public class InputControllerManager : MonoBehaviour
     void Update()
     {
         UpdateHandAnimation();
-        UpdateJoystickInput();
+        //UpdateJoystickInput();
     }
 
     void UpdateHandAnimation()
@@ -55,11 +55,11 @@ public class InputControllerManager : MonoBehaviour
         handAnimator.SetFloat("Grip", actionValue);
     }
 
-    void UpdateJoystickInput()
+    /*void UpdateJoystickInput()
     {
         Vector2 rotateValue = controller.rotateAnchorAction.action.ReadValue<Vector2>();
 
         Vector2 positionValue = controller.translateAnchorAction.action.ReadValue<Vector2>();
         Debug.Log("rotateValue: " + rotateValue.ToString()+ " positionValue: " + positionValue.ToString());
-    }
+    }*/
 }

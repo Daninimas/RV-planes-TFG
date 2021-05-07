@@ -1963,7 +1963,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1406012321}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f06beb2040e56a4fb18731b20dc1301, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a35f6cfbfba9b548aaa00d52cfe8a50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 100423532}
@@ -2057,43 +2057,6 @@ MonoBehaviour:
   m_OnDeactivate:
     m_PersistentCalls:
       m_Calls: []
-  m_AttachTransform: {fileID: 769802158}
-  detachFromParentWhenPicked: 0
-  m_AttachEaseInTime: 0.15
-  m_MovementType: 1
-  m_VelocityDamping: 0.4
-  m_VelocityScale: 1
-  m_AngularVelocityDamping: 0.4
-  m_AngularVelocityScale: 0.95
-  m_TrackPosition: 0
-  m_SmoothPosition: 0
-  m_SmoothPositionAmount: 5
-  m_TightenPosition: 0.5
-  m_TrackRotation: 0
-  m_SmoothRotation: 0
-  m_SmoothRotationAmount: 5
-  m_TightenRotation: 0.5
-  m_ThrowOnDetach: 0
-  m_ThrowSmoothingDuration: 0.25
-  m_ThrowSmoothingCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_ThrowVelocityScale: 1.5
-  m_ThrowAngularVelocityScale: 1
-  m_ForceGravityOnDetach: 0
-  m_RetainTransformParent: 0
 --- !u!23 &1406012324
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2169,7 +2132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3bdcc427ab444646a86da365ac9a5e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planeTransform: {fileID: 650330244}
+  joystickNormal: {x: 0, y: 0}
   returningRotationVelocity: 50
   movingRotationVelocity: 10
   angleLimitsX:
@@ -2178,9 +2141,6 @@ MonoBehaviour:
   angleLimitsY:
     min: -20
     max: 20
-  agarrador: {fileID: 769802158}
-  parent: {fileID: 1406012322}
-  joystickNormal: {x: 0, y: 0}
 --- !u!1 &1588045921
 GameObject:
   m_ObjectHideFlags: 0
