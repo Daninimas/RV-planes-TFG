@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class PlanePhysics : MonoBehaviour
 {
@@ -48,6 +49,11 @@ public class PlanePhysics : MonoBehaviour
     float wingSurface; // Esto pertenece a las alas del avion
 
 
+
+
+
+    public ActionBasedController controller;
+
     void Start()
     {
         Rigidbody = GetComponent<Rigidbody>();
@@ -81,7 +87,7 @@ public class PlanePhysics : MonoBehaviour
     void UpdateControlInput()
     {
         // X -> Cabeceo    Y -> Guinyada    Z -> Alabeo
-        controlInput = new Vector3(ControlJoystick.joystickNormal.x, 0f, ControlJoystick.joystickNormal.y);
+        controlInput = new Vector3(ControlJoystick.joystickNormal.x, 0f, -ControlJoystick.joystickNormal.y);
     }
 
     /// <summary>
@@ -119,6 +125,7 @@ public class PlanePhysics : MonoBehaviour
     /// </summary>
     void UpdateThrust()
     {
+        //Rigidbody.AddRelativeForce(controller.activateAction.action.ReadValue<float>() * maxThrust * Vector3.forward);
         Rigidbody.AddRelativeForce(ControlMixture.mixtureControlNormal * maxThrust * Vector3.forward);
     }
 
@@ -224,15 +231,18 @@ public class PlanePhysics : MonoBehaviour
     void UpdateSteering(float dt)
     {
         float speed = Mathf.Max(0, LocalVelocity.z);
-        float steeringPower = steeringCurve.Evaluate(speed); // Sirve para cambiar la velocidad de giro a distintas velocidades del avion con la AnimationCurve de steeringCurve
-        Vector3 targetAV = Vector3.Scale(controlInput, turnSpeed * steeringPower); // Velocidad angular objetivo (velocidad indicada por el input dependiente de la velocidad maxima de giro)
-        Vector3 av = LocalAngularVelocity * Mathf.Rad2Deg; // Velocidad angular actual del avion
-        Vector3 correction = new Vector3(
-            CalculateSteering(dt, av.x, targetAV.x, turnAcceleration.x * steeringPower),
-            CalculateSteering(dt, av.y, targetAV.y, turnAcceleration.y * steeringPower),
-            CalculateSteering(dt, av.z, targetAV.z, turnAcceleration.z * steeringPower)
-        );
-        Rigidbody.AddRelativeTorque(correction * Mathf.Deg2Rad, ForceMode.VelocityChange);    //ignore rigidbody mass
+        if (speed > 1f)
+        {
+            float steeringPower = steeringCurve.Evaluate(speed); // Sirve para cambiar la velocidad de giro a distintas velocidades del avion con la AnimationCurve de steeringCurve
+            Vector3 targetAV = Vector3.Scale(controlInput, turnSpeed * steeringPower); // Velocidad angular objetivo (velocidad indicada por el input dependiente de la velocidad maxima de giro)
+            Vector3 av = LocalAngularVelocity * Mathf.Rad2Deg; // Velocidad angular actual del avion
+            Vector3 correction = new Vector3(
+                CalculateSteering(dt, av.x, targetAV.x, turnAcceleration.x * steeringPower),
+                CalculateSteering(dt, av.y, targetAV.y, turnAcceleration.y * steeringPower),
+                CalculateSteering(dt, av.z, targetAV.z, turnAcceleration.z * steeringPower)
+            );
+            Rigidbody.AddRelativeTorque(correction * Mathf.Deg2Rad, ForceMode.VelocityChange);    //ignore rigidbody mass
+        }
     }
 
     /*

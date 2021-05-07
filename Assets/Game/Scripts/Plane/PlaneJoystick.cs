@@ -21,7 +21,7 @@ public class PlaneJoystick : MonoBehaviour
     [SerializeField]
     Limit2D angleLimitsX;
     [SerializeField]
-    Limit2D angleLimitsZ;
+    Limit2D angleLimitsY;
     public Transform agarrador;
     public Transform parent;
     private bool returnToTargetRotation = true;
@@ -33,10 +33,9 @@ public class PlaneJoystick : MonoBehaviour
     /// Vector normalizado entre 1 y -1 con la posicion de la palanca y sus limites
     /// </summary>
     public Vector2 joystickNormal = new Vector2();
-
+    private Vector3 smoothV;
     void Start()
     {
-
         offsertPositionFromPlane = gameObject.transform.position - planeTransform.position;
         startRotation = transform.localRotation;
 
@@ -80,7 +79,11 @@ public class PlaneJoystick : MonoBehaviour
             var targetRotation = Quaternion.LookRotation(handInteractor.transform.position - transform.position);
             // Smoothly rotate towards the target point.
             Quaternion objectiveRotation = Quaternion.Lerp(transform.rotation, targetRotation, movingRotationVelocity * Time.deltaTime);
+
             transform.rotation = objectiveRotation;
+
+            // Nuevo modo, look at de solo 1 eje
+            transform.localEulerAngles = new Vector3(Mathf.Clamp(Utils.WrapAngle(transform.localEulerAngles.x), angleLimitsX.min, angleLimitsX.max), Mathf.Clamp(Utils.WrapAngle(transform.localEulerAngles.y), angleLimitsY.min, angleLimitsY.max), transform.localEulerAngles.z);
             /*
             // Mi solucion a hacer un clamp de este angulo
             // Guardar la anterior rotacion
@@ -115,6 +118,7 @@ public class PlaneJoystick : MonoBehaviour
         }
         normalizeJoystickValue();
     }
+
     float getPan(Transform t)
     {
         return t.localEulerAngles.z;
@@ -179,12 +183,9 @@ public class PlaneJoystick : MonoBehaviour
     /// </summary>
     private void normalizeJoystickValue()
     {
-        float angleX = Vector3.Angle(new Vector3(1, 0, 0), transform.forward) - 90f;
-        float angleZ = Vector3.Angle(new Vector3(0, 0, 1), transform.forward) - 90f;
-        Debug.Log("Angle X: " + angleX + "Angle Z: " + angleZ);
-        joystickNormal.x = Utils.normalizeValues(-1, 1, angleLimitsX.min, angleLimitsX.max, Utils.WrapAngle(angleX));
-        joystickNormal.y = Utils.normalizeValues(-1, 1, angleLimitsZ.min, angleLimitsZ.max, Utils.WrapAngle(angleZ));
-        Debug.Log(joystickNormal.ToString());
+        joystickNormal.x = Utils.normalizeValues(-1, 1, angleLimitsX.min, angleLimitsX.max, Utils.WrapAngle(transform.localEulerAngles.x));
+        joystickNormal.y = Utils.normalizeValues(-1, 1, angleLimitsY.min, angleLimitsY.max, Utils.WrapAngle(transform.localEulerAngles.y));
+        //Debug.Log(joystickNormal.ToString());
     }
 
 

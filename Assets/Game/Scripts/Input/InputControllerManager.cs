@@ -57,9 +57,9 @@ public class InputControllerManager : MonoBehaviour
 
     void UpdateJoystickInput()
     {
-        String rotateValue = controller.rotationAction.action.ToString();
+        Vector2 rotateValue = controller.rotateAnchorAction.action.ReadValue<Vector2>();
 
-        String positionValue = controller.positionAction.action.ToString();
-        //Debug.Log("rotateValue: " + rotateValue.ToString()+ " positionValue: " + positionValue.ToString());
+        Vector2 positionValue = controller.translateAnchorAction.action.ReadValue<Vector2>();
+        Debug.Log("rotateValue: " + rotateValue.ToString()+ " positionValue: " + positionValue.ToString());
     }
 }

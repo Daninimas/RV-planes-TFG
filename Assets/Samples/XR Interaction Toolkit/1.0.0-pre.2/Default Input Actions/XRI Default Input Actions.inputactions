@@ -413,7 +413,7 @@
                 {
                     "name": "",
                     "id": "2850572a-0706-4503-bd00-ee6b47f48444",
-                    "path": "<XRController>{LeftHand}/gripButton",
+                    "path": "<XRController>{LeftHand}/gripPressed",
                     "interactions": "",
                     "processors": "",
                     "groups": "Generic XR Controller",
