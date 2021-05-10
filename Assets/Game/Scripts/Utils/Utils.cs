@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public struct Limit2D
+{
+    public float min;
+    public float max;
+}
+
 public class Utils
 {
     /// <summary>

@@ -10,15 +10,10 @@ public class PlaneJoystick : MonoBehaviour
     /// <summary>
     /// Vector normalizado entre 1 y -1 con la posicion de la palanca y sus limites
     /// </summary>
+    [Header("Resultado de la normal")]
     public Vector2 joystickNormal = new Vector2();
 
-    [System.Serializable]
-    public struct Limit2D
-    {
-        public float min;
-        public float max;
-    }
-
+    [Header("Variables")]
     [SerializeField]
     float returningRotationVelocity = 0f;
     [SerializeField]
@@ -63,6 +58,7 @@ public class PlaneJoystick : MonoBehaviour
             // Ponemos los limites a la rotacion
             transform.localEulerAngles = new Vector3(Mathf.Clamp(Utils.WrapAngle(transform.localEulerAngles.x), angleLimitsX.min, angleLimitsX.max), Mathf.Clamp(Utils.WrapAngle(transform.localEulerAngles.y), angleLimitsY.min, angleLimitsY.max), transform.localEulerAngles.z);
         }
+
         normalizeJoystickValue();
     }
 
