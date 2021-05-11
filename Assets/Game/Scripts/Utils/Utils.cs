@@ -44,4 +44,30 @@ public class Utils
 
         return 360 - angle;
     }
+
+    public static float NormalizeAngle(float a)
+    {
+        return a - 180f * Mathf.Floor((a + 180f) / 180f);
+    }
+
+    static public float AngularClamp(float val, float min, float max)
+    {
+        if(val < min || val > max)
+        {
+            // Calculamos a que angulo esta mas cerca
+            float deltaToMin = Mathf.Abs(Mathf.DeltaAngle(val, min));
+            float deltaToMax = Mathf.Abs(Mathf.DeltaAngle(val, max));
+            Debug.Log("Delta to min: " + deltaToMin + " Delta to max: " + deltaToMax);
+            if(deltaToMin < deltaToMax)
+            {
+                val = min;
+            }
+            else
+            {
+                val = max;
+            }
+        }
+
+        return val;
+    }
 }

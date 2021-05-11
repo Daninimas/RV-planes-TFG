@@ -28,28 +28,24 @@ public class PlaneMixtureControl : MonoBehaviour
     private Transform handInteractor;
     private Quaternion startLocalRotation;
 
+
     public Transform target;
 
     void Start()
     {
         gameObject.GetComponent<XRSimpleInteractable>().selectEntered.AddListener(OnSelect);
 
-        startLocalRotation = transform.localRotation;
+        startLocalRotation = Quaternion.Euler(0f, 0f, 90f);
+        transform.localEulerAngles = new Vector3(angleLimitsX.min, 0, 90f);
     }
 
-
+    
     private void OnDrawGizmos()
     {
         if (target != null)
         {
-            /*
-            Vector3 direction = (target.position - transform.position);
-            direction.x = 0f;
-            Gizmos.DrawRay(transform.position, direction);
-            float angle = Vector3.SignedAngle(transform.forward, direction.normalized, Vector3.right);
-            Debug.Log(angle + transform.localEulerAngles.x);
-        */
-            bool onNegativeZ = false;
+            float objectiveAngleX = 0f;
+            float currentAngleX = transform.localEulerAngles.x;
             Plane rotationPlane = new Plane(-transform.up, transform.position);
             // Get the closest point on the plane
             Vector3 closestPoint = rotationPlane.ClosestPointOnPlane(target.position);
@@ -57,7 +53,63 @@ public class PlaneMixtureControl : MonoBehaviour
             direction = (closestPoint - transform.position);
            
             Gizmos.DrawRay(transform.position, direction);
-            if (direction.z < 0f)
+
+            //Comprobar si esta delante o detras de la palanca
+            transform.localEulerAngles = new Vector3(0f, 0f, 90f);
+            Plane forwardBehindPlane = new Plane(transform.forward, transform.position);
+
+
+            Debug.Log("Direction: " + direction + " Global rotation: " + transform.rotation.eulerAngles);
+            transform.forward = direction.normalized;
+
+            
+            if (forwardBehindPlane.GetSide(closestPoint))
+            {
+                // Cuando esta el objeto delante de la palanca
+                objectiveAngleX = transform.localEulerAngles.x;
+                Debug.Log("Delante");
+            }
+            else
+            {
+                // Cuando esta el objeto detras de la palanca
+                objectiveAngleX = -transform.localEulerAngles.x + 180f;
+                Debug.Log("Detras");
+            }
+            objectiveAngleX = Utils.UnwrapAngle(objectiveAngleX);
+            // Add velocity
+            float angleDifference = objectiveAngleX - currentAngleX;
+            float rotation = Mathf.Sign(angleDifference) * movingRotationVelocity * Time.deltaTime;
+            if (Mathf.Abs(rotation) > Mathf.Abs(angleDifference))
+                rotation = angleDifference;
+
+            Debug.Log("Objective angle: " + objectiveAngleX + " Current angle: " + currentAngleX + " Rotation: " + rotation + " final angle = " + (rotation + currentAngleX));
+            // Set value to the transform
+            //transform.localEulerAngles = new Vector3(rotation + currentAngleX, 0f, 90f);
+            Vector3 velocity = new Vector3();
+            //transform.localEulerAngles = Vector3.SmoothDamp(new Vector3(currentAngleX, 0f, 90f), new Vector3(objectiveAngleX, 0f, 90f), ref velocity, 0.3f);
+            //transform.localEulerAngles = new Vector3(Mathf.Clamp(Utils.WrapAngle(rotation + currentAngleX), angleLimitsX.min, angleLimitsX.max), 0f, 90f);
+            
+            rotation = Mathf.MoveTowards(currentAngleX, objectiveAngleX, 10 * Time.deltaTime);
+
+            //transform.localEulerAngles = new Vector3(rotation, 0f, 90f);
+            transform.localEulerAngles = new Vector3(Utils.AngularClamp(objectiveAngleX, angleLimitsX.min, angleLimitsX.max), 0, 90);
+        }
+    }
+
+    // Update is called once per frame
+    void LateUpdate()
+    {
+        if(selected)
+        {
+            float objectiveAngleX = 0f;
+            //float currentAngleX = transform.localEulerAngles.x;
+            Plane rotationPlane = new Plane(-transform.up, transform.position);
+            // Get the closest point on the plane
+            Vector3 closestPoint = rotationPlane.ClosestPointOnPlane(handInteractor.transform.position);
+            Vector3 direction;
+            direction = (closestPoint - transform.position);
+
+            /*if (direction.z < 0f)
             {
                 onNegativeZ = true;
                 direction.z = -direction.z;
@@ -67,36 +119,41 @@ public class PlaneMixtureControl : MonoBehaviour
             if(onNegativeZ)
                 angle = -angle;
             Debug.Log("Direction: " + direction + "Angle: " + angle + " local angle: " + transform.localEulerAngles.x + " Total: " + (angle + transform.localEulerAngles.x));
-            transform.localEulerAngles = new Vector3(Mathf.Clamp(Utils.WrapAngle(angle + transform.localEulerAngles.x),-90, 90), 0f, 90f);
-            //Debug.Log(-angle);
-        }
-    }
+            // Add velocity
+            float rotation = Mathf.Sign(angle) * 10 * Time.deltaTime;
+            if (rotation > Mathf.Abs(angle))
+                rotation = angle;
+            //transform.localEulerAngles = new Vector3(Mathf.Clamp(Utils.WrapAngle(angle + transform.localEulerAngles.x), -90, 90), 0f, 90f);
+            transform.localEulerAngles = new Vector3(angle + transform.localEulerAngles.x, 0f, 90f);*/
 
-    // Update is called once per frame
-    void LateUpdate()
-    {
-        if(selected)
-        {
-            /*
-            Vector3 direction = (handInteractor.transform.position - transform.position);
-            direction.x = 0f;
-            float angle = Vector3.SignedAngle(transform.forward, direction.normalized, Vector3.right);
-            Debug.DrawRay(transform.position, direction, Color.green);
-            Debug.Log(angle);
+            //Comprobar si esta delante o detras de la palanca
+            transform.localEulerAngles = startLocalRotation.eulerAngles;
+            Plane forwardBehindPlane = new Plane(transform.forward, transform.position);
 
-            // Ponemos los limites a la rotacion
-            Vector3 newLocalAngles = new Vector3(Mathf.Clamp(Utils.WrapAngle(angle + transform.localEulerAngles.x), angleLimitsX.min, angleLimitsX.max), startLocalRotation.eulerAngles.y, startLocalRotation.eulerAngles.z);
-            transform.localEulerAngles = newLocalAngles;
-            //transform.localEulerAngles = Vector3.SmoothDamp(transform.localEulerAngles, newLocalAngles, ref smoothVelocity, timeToSmooth);
-            */
-            Plane rotationPlane = new Plane(-transform.up, transform.position);
-            // Get the closest point on the plane
-            Vector3 closestPoint = rotationPlane.ClosestPointOnPlane(target.position);
-            Vector3 direction = (closestPoint - transform.position);
-            // Calcular angulo
-            float angle = Vector3.Angle(transform.forward, direction);
-            Debug.Log(-angle + transform.localEulerAngles.x);
-            transform.Rotate(new Vector3(0, -angle, 0));
+
+            transform.forward = direction.normalized;
+
+            if (forwardBehindPlane.GetSide(closestPoint))
+            {
+                // Cuando esta el objeto delante de la palanca
+                objectiveAngleX = transform.localEulerAngles.x;
+            }
+            else
+            {
+                // Cuando esta el objeto detras de la palanca
+                objectiveAngleX = -transform.localEulerAngles.x + 180f;
+            }
+
+            /*// Add velocity
+            float angleDifference = objectiveAngleX - currentAngleX;
+            float rotation = Mathf.Sign(angleDifference) * movingRotationVelocity * Time.deltaTime;
+            if (Mathf.Abs(rotation) > Mathf.Abs(angleDifference))
+                rotation = angleDifference;*/
+
+            // Set value to the transform
+            //transform.localEulerAngles = new Vector3(Mathf.Clamp(Utils.WrapAngle(rotation + currentAngleX), angleLimitsX.min, angleLimitsX.max), startLocalRotation.eulerAngles.y, startLocalRotation.eulerAngles.z);
+            transform.localEulerAngles = new Vector3(Mathf.Clamp(Utils.WrapAngle(objectiveAngleX), angleLimitsX.min, angleLimitsX.max), startLocalRotation.eulerAngles.y, startLocalRotation.eulerAngles.z);
+
         }
         normalizeMixtureControlValue();        
     }
