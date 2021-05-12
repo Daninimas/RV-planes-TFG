@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class PlanePhysics : MonoBehaviour
@@ -14,6 +15,8 @@ public class PlanePhysics : MonoBehaviour
     [Header("Drag")]
     [SerializeField]
     float dragCoefficientAtZeroLift;
+    [SerializeField]
+    Vector3 angularDrag = new Vector3(1f, 1f, 1f);
 
     [Header("Steering")]
     [SerializeField]
@@ -47,9 +50,10 @@ public class PlanePhysics : MonoBehaviour
     float airDensity; // Esto pertenece al mundo
     [SerializeField]
     float wingSurface; // Esto pertenece a las alas del avion
-
-
-
+    [SerializeField]
+    float rotateYawNormalValue = 0;
+    [SerializeField]
+    InputActionReference RotateYawActionRef = null;
 
 
     public ActionBasedController controller;
@@ -57,7 +61,27 @@ public class PlanePhysics : MonoBehaviour
     void Start()
     {
         Rigidbody = GetComponent<Rigidbody>();
+
+        /// TODO: Quitar de aqui y poner en las alas
+        // Mejor forma de obtener input con inputXR basado en acciones de esta forma de suscribes cuando se activa y cuando se desactiva
+        // Cuando se pulsa un boton, se llama a una funcion
+        RotateYawActionRef.action.started += UpdateYawNormal;
+        RotateYawActionRef.action.canceled += UpdateYawNormal;
     }
+    private void OnDestroy()
+    {
+        // Desuscribirse de las acciones cuando se destruya el objeto
+        RotateYawActionRef.action.started -= UpdateYawNormal;
+        RotateYawActionRef.action.canceled -= UpdateYawNormal;
+    }
+
+    /// TODO: Quitar de aqui y poner en las alas
+    private void UpdateYawNormal(InputAction.CallbackContext context)
+    {
+        rotateYawNormalValue = context.action.ReadValue<float>();
+    }
+
+
 
     void FixedUpdate()
     {
@@ -75,7 +99,7 @@ public class PlanePhysics : MonoBehaviour
         UpdateSteering(dt);
 
         UpdateDrag(wingSurface);
-        //UpdateAngularDrag(); // TODO MEJORA, ES LA RESISTENCIA AL GIRO DEL AVION
+        UpdateAngularDrag();
 
         //calculate again, so that other systems can read this plane's state
         UpdateState();
@@ -87,7 +111,7 @@ public class PlanePhysics : MonoBehaviour
     void UpdateControlInput()
     {
         // X -> Cabeceo    Y -> Guinyada    Z -> Alabeo
-        controlInput = new Vector3(ControlJoystick.joystickNormal.x, 0f, -ControlJoystick.joystickNormal.y);
+        controlInput = new Vector3(ControlJoystick.joystickNormal.x, rotateYawNormalValue, -ControlJoystick.joystickNormal.y);
     }
 
     /// <summary>
@@ -245,12 +269,19 @@ public class PlanePhysics : MonoBehaviour
         }
     }
 
-    /*
-    void UpdateAngularDrag()
+    
+    /*void UpdateAngularDrag() 
+    {
+        var av = LocalAngularVelocity;
+        var drag = av.sqrMagnitude * -av.normalized;    //squared, opposite direction of angular velocity
+        Rigidbody.AddRelativeTorque(Vector3.Scale(drag, angularDrag), ForceMode.Acceleration);  //ignore rigidbody mass
+    }*/
+
+    void UpdateAngularDrag() // Estabiliza el vuelo para que mire hacia donde se dirige
     {
         var av = LocalAngularVelocity;
         var drag = av.sqrMagnitude * -av.normalized;    //squared, opposite direction of angular velocity
         Rigidbody.AddRelativeTorque(Vector3.Scale(drag, angularDrag), ForceMode.Acceleration);  //ignore rigidbody mass
     }
-    */
+
 }

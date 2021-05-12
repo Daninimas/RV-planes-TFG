@@ -15,7 +15,13 @@ public class InputControllerManager : MonoBehaviour
     // For the hand animation
     private Animator handAnimator;
 
-    public Vector2 joystickNormal = new Vector2();
+    // Input de acciones propias que vamos a usar
+    [Header("InputXR Actions")]
+    [SerializeField]
+    InputActionReference triggerAnimActionRef = null;
+    [SerializeField]
+    InputActionReference gripAnimActionRef = null;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -26,40 +32,47 @@ public class InputControllerManager : MonoBehaviour
 
         // Ver si un boton ha sido pulsado y esto devuelve true o false
         bool isActionPressed = controller.selectAction.action.ReadValue<bool>();
-        // Cuando se pulsa un boton, se llama a una funcion
-        controller.selectAction.action.performed += PulsadoBotonSelect;
 
+        /*
+        // Mejor forma de obtener input con inputXR basado en acciones de esta forma de suscribes cuando se activa y cuando se desactiva
+        // Cuando se pulsa un boton, se llama a una funcion
+        RotateYawActionRef.action.started += UpdateYawNormal;
+        RotateYawActionRef.action.canceled += UpdateYawNormal;
+        */
+
+
+        // Para la animacion de las manos
         spawnedHandModel = Instantiate(handModelPrefab, transform);
 
         handAnimator = spawnedHandModel.GetComponent<Animator>();
     }
-
-    private void PulsadoBotonSelect(InputAction.CallbackContext obj)
+    /*
+    private void OnDestroy()
     {
-        //Debug.Log("Boton select pulsado: " + obj.ReadValue<float>());
+        // Desuscribirse de las acciones cuando se destruya el objeto
+        RotateYawActionRef.action.started  -= UpdateYawNormal;
+        RotateYawActionRef.action.canceled -= UpdateYawNormal;
     }
-
+    */
     // Update is called once per frame
     void Update()
     {
         UpdateHandAnimation();
-        //UpdateJoystickInput();
     }
 
     void UpdateHandAnimation()
     {
-        float triggerValue = controller.activateAction.action.ReadValue<float>();
+        float triggerValue = triggerAnimActionRef.action.ReadValue<float>();
         handAnimator.SetFloat("Trigger", triggerValue);
 
-        float actionValue = controller.selectAction.action.ReadValue<float>();
-        handAnimator.SetFloat("Grip", actionValue);
+        float gripValue = gripAnimActionRef.action.ReadValue<float>();
+        handAnimator.SetFloat("Grip", gripValue);
     }
 
-    /*void UpdateJoystickInput()
+    /*
+    private void UpdateYawNormal(InputAction.CallbackContext context)
     {
-        Vector2 rotateValue = controller.rotateAnchorAction.action.ReadValue<Vector2>();
-
-        Vector2 positionValue = controller.translateAnchorAction.action.ReadValue<Vector2>();
-        Debug.Log("rotateValue: " + rotateValue.ToString()+ " positionValue: " + positionValue.ToString());
+        rotateYawNormalValue = context.ReadValue<int>();
+        Debug.Log(gameObject.name + " YawValue: " + rotateYawNormalValue);
     }*/
 }

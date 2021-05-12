@@ -57,7 +57,6 @@ public class Utils
             // Calculamos a que angulo esta mas cerca
             float deltaToMin = Mathf.Abs(Mathf.DeltaAngle(val, min));
             float deltaToMax = Mathf.Abs(Mathf.DeltaAngle(val, max));
-            Debug.Log("Delta to min: " + deltaToMin + " Delta to max: " + deltaToMax);
             if(deltaToMin < deltaToMax)
             {
                 val = min;
