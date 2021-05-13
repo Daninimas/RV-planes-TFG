@@ -26,8 +26,16 @@ public class PlanePhysics : MonoBehaviour
     [SerializeField]
     AnimationCurve steeringCurve;
 
+    [Header("Stabilization")]
+    [SerializeField]
+    Vector3 maxStabilizationTorque;
+    [SerializeField]
+    AnimationCurve stabilizationYCurve;
+
+
     // Variables publicas
     public Rigidbody Rigidbody { get; private set; }
+    [Header("Control")]
     public PlaneJoystick ControlJoystick;
     public PlaneMixtureControl ControlMixture;
 
@@ -103,6 +111,8 @@ public class PlanePhysics : MonoBehaviour
 
         //calculate again, so that other systems can read this plane's state
         UpdateState();
+
+        StabilizeFlight(dt);
     }
 
     /// <summary>
@@ -270,18 +280,47 @@ public class PlanePhysics : MonoBehaviour
     }
 
     
-    /*void UpdateAngularDrag() 
+    void UpdateAngularDrag() 
     {
         var av = LocalAngularVelocity;
         var drag = av.sqrMagnitude * -av.normalized;    //squared, opposite direction of angular velocity
         Rigidbody.AddRelativeTorque(Vector3.Scale(drag, angularDrag), ForceMode.Acceleration);  //ignore rigidbody mass
-    }*/
+    }
 
-    void UpdateAngularDrag() // Estabiliza el vuelo para que mire hacia donde se dirige
+    void StabilizeFlight(float dt) // Estabiliza el vuelo para que mire hacia donde se dirige
     {
-        var av = LocalAngularVelocity;
-        var drag = av.sqrMagnitude * -av.normalized;    //squared, opposite direction of angular velocity
-        Rigidbody.AddRelativeTorque(Vector3.Scale(drag, angularDrag), ForceMode.Acceleration);  //ignore rigidbody mass
+        /*
+        // Otro modo
+        var stabilizingDrag = new Vector3(0.5f, 2.0f, 0.0f);
+        Vector3 dragDirection = transform.InverseTransformDirection(GetComponent<Rigidbody>().velocity);
+        //stabilization (to keep the plane facing into the direction it's moving)
+        Vector3 stabilizationForces = -Vector3.Scale(dragDirection, stabilizingDrag) * GetComponent<Rigidbody>().velocity.magnitude;
+        GetComponent<Rigidbody>().AddForceAtPosition(transform.TransformDirection(stabilizationForces), transform.position - transform.forward * 10);
+        GetComponent<Rigidbody>().AddForceAtPosition(-transform.TransformDirection(stabilizationForces), transform.position + transform.forward * 10);*/
+
+        /*
+        // Modo propio
+        Vector3 stabilizationVelocity = new Vector3();
+
+        stabilizationVelocity.x = Mathf.Clamp(LocalVelocity.y, -maxStabilizationTorque.x, maxStabilizationTorque.x);
+        stabilizationVelocity.y = Mathf.Clamp(stabilizationYCurve.Evaluate(LocalVelocity.x), -maxStabilizationTorque.y, maxStabilizationTorque.y);
+        stabilizationVelocity.z = Mathf.Clamp(LocalVelocity.z, -maxStabilizationTorque.z, maxStabilizationTorque.z);
+
+        Rigidbody.AddRelativeTorque(stabilizationVelocity, ForceMode.Acceleration);
+
+        Debug.Log("LocalVelocity: "+LocalVelocity + " stabilizationVelocity: " + stabilizationVelocity + "maxStabilizationTorque : " + maxStabilizationTorque);
+        */
+
+        // Modo propio
+        Vector3 stabilizationVelocity = new Vector3();
+
+        stabilizationVelocity.x = Mathf.Clamp(LocalVelocity.y, -maxStabilizationTorque.x, maxStabilizationTorque.x);
+        stabilizationVelocity.y = Mathf.Clamp(stabilizationYCurve.Evaluate(LocalVelocity.x), -maxStabilizationTorque.y, maxStabilizationTorque.y);
+        stabilizationVelocity.z = Mathf.Clamp(LocalVelocity.z, -maxStabilizationTorque.z, maxStabilizationTorque.z);
+
+        Rigidbody.AddRelativeTorque(stabilizationVelocity, ForceMode.Acceleration);
+
+        Debug.Log("LocalVelocity: " + LocalVelocity + " stabilizationVelocity: " + stabilizationVelocity + "maxStabilizationTorque : " + maxStabilizationTorque);
     }
 
 }

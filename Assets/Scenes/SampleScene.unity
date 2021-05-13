@@ -257,6 +257,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3015822200032378701, guid: 859fa8fd627981140b6c32d66134b8fb,
+        type: 3}
+      propertyPath: far clip plane
+      value: 10000
+      objectReference: {fileID: 0}
     - target: {fileID: 3015822200032378702, guid: 859fa8fd627981140b6c32d66134b8fb,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -501,7 +506,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 356970423}
-  m_LocalRotation: {x: -0.4442596, y: 0.4442596, z: 0.5501213, w: 0.5501213}
+  m_LocalRotation: {x: -0.4442921, y: 0.4442921, z: 0.550095, w: 0.550095}
   m_LocalPosition: {x: 0, y: -0.022, z: -0.02}
   m_LocalScale: {x: 0.07796674, y: 0.028841821, z: 0.077966735}
   m_Children:
@@ -1025,6 +1030,40 @@ MonoBehaviour:
       weightedMode: 0
       inWeight: 0
       outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxStabilizationTorque: {x: 0, y: 5, z: 0}
+  stabilizationYCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -100
+      value: -5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.06152584
+      outSlope: 0.06152584
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.19166666
+      outWeight: 0.5083333
+    - serializedVersion: 3
+      time: 100
+      value: 5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
