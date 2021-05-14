@@ -320,7 +320,7 @@ public class PlanePhysics : MonoBehaviour
 
         Rigidbody.AddRelativeTorque(stabilizationVelocity, ForceMode.Acceleration);
 
-        Debug.Log("LocalVelocity: " + LocalVelocity + " stabilizationVelocity: " + stabilizationVelocity + "maxStabilizationTorque : " + maxStabilizationTorque);
+        //Debug.Log("LocalVelocity: " + LocalVelocity + " stabilizationVelocity: " + stabilizationVelocity + "maxStabilizationTorque : " + maxStabilizationTorque);
     }
 
 }
