@@ -1687,9 +1687,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rateOfFire: 0.5
-  shoot: 1
+  bulletVelocity: 900
+  bulletAliveTime: 2
+  damage: 1
   bulletInstance: {fileID: 1867585810824233893, guid: 10c04ac95e7b17f4d81a9bce30792668,
     type: 3}
+  shoot: 1
 --- !u!23 &1083265765
 MeshRenderer:
   m_ObjectHideFlags: 0

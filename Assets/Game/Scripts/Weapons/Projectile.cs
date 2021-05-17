@@ -22,6 +22,7 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         float deltaTime = Time.deltaTime;
 
         // Bullet destruction with time
@@ -34,8 +35,9 @@ public class Projectile : MonoBehaviour
 
         // Bullet movement
         // Restar gravedad al componente Y
-        Debug.Log(Physics.gravity);
+        Debug.Log(transform.forward);
         velocityVector += Physics.gravity * deltaTime;
         this.transform.position = transform.position + velocityVector * deltaTime;
+        
     }
 }

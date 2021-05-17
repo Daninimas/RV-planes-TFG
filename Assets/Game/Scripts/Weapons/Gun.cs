@@ -6,10 +6,18 @@ public class Gun : MonoBehaviour
 {
     public float rateOfFire;
 
-    public bool shoot = false; // Se activa cuando le mandamos al arma disparar
-
+    [SerializeField]
+    float bulletVelocity;
+    [SerializeField]
+    float bulletAliveTime;
+    [SerializeField]
+    int damage;
     [SerializeField]
     GameObject bulletInstance;
+    
+
+    [Space]
+    public bool shoot = false; // Se activa cuando le mandamos al arma disparar
 
     // Variables privadas
     float rateOfFireCounter;
@@ -24,6 +32,8 @@ public class Gun : MonoBehaviour
             if (shoot)
             {
                 createShoot();
+
+                rateOfFireCounter = 0f;
             }
         }
     }
@@ -36,10 +46,11 @@ public class Gun : MonoBehaviour
         // Poner la posicion y direccion
         newBullet.transform.position = this.transform.position;
         newBullet.transform.forward = this.transform.forward;
-
+        
         // Poner los datos de bullet
-        newBulletProj.aliveTime = 2f;
-        newBulletProj.damage = 1;
-        newBulletProj.velocityMagnitude = 100f;
+        newBulletProj.aliveTime = bulletAliveTime;
+        newBulletProj.damage = damage;
+        newBulletProj.velocityMagnitude = bulletVelocity;
+        //newBulletProj.GetComponent<Rigidbody>().velocity = newBulletProj.transform.forward * bulletVelocity;
     }
 }
