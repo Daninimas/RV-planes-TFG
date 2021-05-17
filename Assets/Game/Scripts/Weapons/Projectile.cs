@@ -12,14 +12,11 @@ public class Projectile : MonoBehaviour
     public float aliveTime = 1;
 
 
-    // ******** Esto no va aqui, cambiarlo de sitio
-    float gravity = 9.8f; // Esto pertenece al mundo
-
 
     // Start is called before the first frame update
     void Start()
     {
-        velocityVector *= velocityMagnitude;
+        velocityVector = transform.forward * velocityMagnitude;
     }
 
     // Update is called once per frame
@@ -37,6 +34,8 @@ public class Projectile : MonoBehaviour
 
         // Bullet movement
         // Restar gravedad al componente Y
-        this.transform.position += transform.forward * (deltaTime * velocityMagnitude);
+        Debug.Log(Physics.gravity);
+        velocityVector += Physics.gravity * deltaTime;
+        this.transform.position = transform.position + velocityVector * deltaTime;
     }
 }
