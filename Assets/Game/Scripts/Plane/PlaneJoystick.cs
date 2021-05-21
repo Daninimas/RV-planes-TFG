@@ -24,6 +24,10 @@ public class PlaneJoystick : MonoBehaviour
     [SerializeField]
     Limit2D angleLimitsY;
 
+    [Header("Plane Controller")]
+    [SerializeField]
+    PlaneController planeController;
+
     private bool returnToTargetRotation = true;
     private Transform handInteractor;
     private Quaternion startRotation;
@@ -96,13 +100,13 @@ public class PlaneJoystick : MonoBehaviour
     /// </summary>
     public void OnActivate()
     {
-        Debug.Log("On activate event");
+        planeController.updateGunsShoot(true);
     }
     /// <summary>
     /// When trigger is released and it is been picked
     /// </summary>
     public void OnDeactivate()
     {
-        Debug.Log("On deactivate event");
+        planeController.updateGunsShoot(false);
     }
 }

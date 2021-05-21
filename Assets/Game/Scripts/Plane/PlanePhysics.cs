@@ -36,8 +36,7 @@ public class PlanePhysics : MonoBehaviour
     // Variables publicas
     public Rigidbody Rigidbody { get; private set; }
     [Header("Control")]
-    public PlaneJoystick ControlJoystick;
-    public PlaneMixtureControl ControlMixture;
+    public PlaneController planeController;
 
     // Variables internas
     private float inducedDragCoeficient = 0f;
@@ -121,7 +120,7 @@ public class PlanePhysics : MonoBehaviour
     void UpdateControlInput()
     {
         // X -> Cabeceo    Y -> Guinyada    Z -> Alabeo
-        controlInput = new Vector3(ControlJoystick.joystickNormal.x, rotateYawNormalValue, -ControlJoystick.joystickNormal.y);
+        controlInput = new Vector3(planeController.joystick.joystickNormal.x, rotateYawNormalValue, -planeController.joystick.joystickNormal.y);
     }
 
     /// <summary>
@@ -160,7 +159,7 @@ public class PlanePhysics : MonoBehaviour
     void UpdateThrust()
     {
         //Rigidbody.AddRelativeForce(controller.activateAction.action.ReadValue<float>() * maxThrust * Vector3.forward);
-        Rigidbody.AddRelativeForce(ControlMixture.mixtureControlNormal * maxThrust * Vector3.forward);
+        Rigidbody.AddRelativeForce(planeController.mixtureControl.mixtureControlNormal * maxThrust * Vector3.forward);
     }
 
     /// <summary>

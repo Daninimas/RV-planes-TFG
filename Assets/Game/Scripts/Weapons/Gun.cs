@@ -22,6 +22,9 @@ public class Gun : MonoBehaviour
     // Variables privadas
     float rateOfFireCounter;
 
+    public int disparosRealizados = 0, impactos = 0;
+
+
     // Update is called once per frame
     void Update()
     {
@@ -36,6 +39,8 @@ public class Gun : MonoBehaviour
                 rateOfFireCounter = 0f;
             }
         }
+
+        Debug.Log("Disparos realizados: " + disparosRealizados + " impactos: " + impactos);
     }
 
     private void createShoot()
@@ -51,6 +56,14 @@ public class Gun : MonoBehaviour
         newBulletProj.aliveTime = bulletAliveTime;
         newBulletProj.damage = damage;
         newBulletProj.velocityMagnitude = bulletVelocity;
+        newBulletProj.borrarEsto = this;
         //newBulletProj.GetComponent<Rigidbody>().velocity = newBulletProj.transform.forward * bulletVelocity;
+
+        disparosRealizados++;
+    }
+
+    public void setShoot(bool s)
+    {
+        shoot = s;
     }
 }

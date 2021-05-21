@@ -69,4 +69,19 @@ public class Utils
 
         return val;
     }
+
+    /// <summary>
+    /// Devuelve el layermask de la máscara indicada. Mira en la coinfiguracion de fisicas para ver con que tiene que colisionar y con que no
+    /// </summary>
+    /// <param name="currentLayer"></param>
+    /// <returns></returns>
+    public static LayerMask GetPhysicsLayerMask(int currentLayer)
+    {
+        int finalMask = 0;
+        for (int i = 0; i < 32; i++)
+        {
+            if (!Physics.GetIgnoreLayerCollision(currentLayer, i)) finalMask = finalMask | (1 << i);
+        }
+        return finalMask;
+    }
 }

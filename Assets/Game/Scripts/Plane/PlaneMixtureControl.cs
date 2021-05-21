@@ -74,7 +74,7 @@ public class PlaneMixtureControl : MonoBehaviour
                 angle = angle - 360;
 
                 transform.localEulerAngles = new Vector3(angle, 0, 90);
-                Debug.Log("Delante");
+                //Debug.Log("Delante");
             }
             else
             {
@@ -85,11 +85,11 @@ public class PlaneMixtureControl : MonoBehaviour
                 angle = -transform.localEulerAngles.x + 180;
 
                 transform.localEulerAngles = new Vector3(angle, 0, 90);
-                Debug.Log("Detras");
+                //Debug.Log("Detras");
             }
             /*float angulo = -transform.localEulerAngles.x + 180;
             float angulo = transform.localEulerAngles.x - 360;*/
-            Debug.Log(angle);
+            //Debug.Log(angle);
 
             /*
             //Comprobar si esta delante o detras de la palanca
