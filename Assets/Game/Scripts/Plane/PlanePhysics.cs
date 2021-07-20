@@ -63,8 +63,6 @@ public class PlanePhysics : MonoBehaviour
     InputActionReference RotateYawActionRef = null;
 
 
-    public ActionBasedController controller;
-
     void Start()
     {
         Rigidbody = GetComponent<Rigidbody>();
@@ -111,7 +109,7 @@ public class PlanePhysics : MonoBehaviour
         //calculate again, so that other systems can read this plane's state
         UpdateState();
 
-        StabilizeFlight(dt);
+        //StabilizeFlight(dt);
     }
 
     /// <summary>
@@ -176,10 +174,14 @@ public class PlanePhysics : MonoBehaviour
             wingSurface
         );
 
-        //var yawForce = CalculateLift(AngleOfAttackYaw, Vector3.up, rudderPower, rudderAOACurve, rudderInducedDragCurve);
+        var yawForce = CalculateLift(
+            AngleOfAttackYaw, Vector3.up, 
+            rudderLiftAOACurve,
+            airDensity,
+            wingSurface);
 
         Rigidbody.AddRelativeForce(liftForce);
-        //Rigidbody.AddRelativeForce(yawForce);
+        Rigidbody.AddRelativeForce(yawForce);
     }
 
     /// <summary>
