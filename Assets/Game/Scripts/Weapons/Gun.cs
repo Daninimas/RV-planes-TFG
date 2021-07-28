@@ -39,8 +39,6 @@ public class Gun : MonoBehaviour
                 rateOfFireCounter = 0f;
             }
         }
-
-        Debug.Log("Disparos realizados: " + disparosRealizados + " impactos: " + impactos);
     }
 
     private void createShoot()

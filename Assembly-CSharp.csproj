@@ -64,15 +64,28 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\CursorsAndCrosshairs\CursorChanger.cs" />
+    <Compile Include="Assets\EffectExamples\Shared\Scripts\DecalDestroyer.cs" />
+    <Compile Include="Assets\EffectExamples\Shared\Scripts\ExtinguishableFire.cs" />
+    <Compile Include="Assets\EffectExamples\Shared\Scripts\GunAim.cs" />
+    <Compile Include="Assets\EffectExamples\Shared\Scripts\GunShoot.cs" />
+    <Compile Include="Assets\EffectExamples\Shared\Scripts\ParticleCollision.cs" />
+    <Compile Include="Assets\EffectExamples\Shared\Scripts\ParticleExamples.cs" />
+    <Compile Include="Assets\EffectExamples\Shared\Scripts\ParticleMenu.cs" />
+    <Compile Include="Assets\EffectExamples\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\Game\Scripts\Input\InputControllerManager.cs" />
     <Compile Include="Assets\Game\Scripts\Plane\PlaneController.cs" />
     <Compile Include="Assets\Game\Scripts\Plane\PlaneJoystick.cs" />
     <Compile Include="Assets\Game\Scripts\Plane\PlaneMixtureControl.cs" />
     <Compile Include="Assets\Game\Scripts\Plane\PlanePhysics.cs" />
+    <Compile Include="Assets\Game\Scripts\Utils\DeleteWithTime.cs" />
+    <Compile Include="Assets\Game\Scripts\Utils\Destructible.cs" />
     <Compile Include="Assets\Game\Scripts\Utils\Utils.cs" />
     <Compile Include="Assets\Game\Scripts\Utils\XRGrabInteractableExtended.cs" />
+    <Compile Include="Assets\Game\Scripts\Weapons\Explosive.cs" />
     <Compile Include="Assets\Game\Scripts\Weapons\Gun.cs" />
     <Compile Include="Assets\Game\Scripts\Weapons\Projectile.cs" />
+    <None Include="Assets\EffectExamples\Shared\Shaders\SurfaceShader_VC.shader" />
     <Reference Include="UnityEngine">
       <HintPath>D:/Programas/Unity Editor/2019.4.21f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>

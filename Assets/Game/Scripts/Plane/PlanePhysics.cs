@@ -109,7 +109,7 @@ public class PlanePhysics : MonoBehaviour
         //calculate again, so that other systems can read this plane's state
         UpdateState();
 
-        //StabilizeFlight(dt);
+        StabilizeFlight(dt);
     }
 
     /// <summary>
