@@ -248,6 +248,10 @@ MonoBehaviour:
   explsionDamage: 20
   explosionForce: 700
   copyBomb: {fileID: 6031257832727028366}
+  maxPredictionSteps: 500
+  predictionFramesJump: 50
+  predictionMarker: {fileID: 0}
+  markerSize: 0.005
 --- !u!1773428102 &6031257832727028358
 ParentConstraint:
   m_ObjectHideFlags: 0

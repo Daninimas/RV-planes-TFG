@@ -19,14 +19,21 @@ public class Explosive : MonoBehaviour
     private GameObject _plane;
     private Vector3 _lastPosition;
     private bool _isBeingPicked = false;
+    private Vector3 _markerStartScale;
 
 
     [SerializeField]
     GameObject copyBomb;
+    [Header("Prediction variables")]
     [SerializeField]
     int maxPredictionSteps;
     [SerializeField]
+    [Min(1)]
+    int predictionFramesJump; // Cuantos frames te saltas entre los pasos de la predicción (a cuantos más, más lejos llega la predicción, pero pierde precisión)
+    [SerializeField]
     GameObject predictionMarker;
+    [SerializeField]
+    float markerSize = 0.005f;
 
 
     private void Start()
@@ -38,6 +45,8 @@ public class Explosive : MonoBehaviour
         _lastPosition = transform.position;
 
         predictionMarker.gameObject.SetActive(false);
+
+        _markerStartScale = predictionMarker.transform.localScale;
     }
 
     // Update is called once per frame
@@ -170,7 +179,7 @@ public class Explosive : MonoBehaviour
     public void predictBombDrop()
     {
         Vector3 lastPosition = transform.position;
-        float stepSize = Time.fixedDeltaTime;
+        float stepSize = Time.fixedDeltaTime * predictionFramesJump;
         Vector3 predictedBulletVelocity = _plane.GetComponent<Rigidbody>().velocity;
         LayerMask layermask = Utils.GetPhysicsLayerMask(gameObject.layer);
         bool hitSomething = false;
@@ -191,6 +200,9 @@ public class Explosive : MonoBehaviour
                 {
                     predictionMarker.gameObject.SetActive(true);
                     predictionMarker.transform.position = entityHit.point;
+                    predictionMarker.transform.forward = entityHit.normal;
+                    float scale = 0.005f * Vector3.Distance(Camera.main.transform.position, entityHit.point);
+                    predictionMarker.transform.localScale = new Vector3(scale, scale, scale);
                     hitSomething = true;
                     break;
                 }
