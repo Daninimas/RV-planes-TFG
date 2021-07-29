@@ -1852,36 +1852,36 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  maxStabilizationTorque: {x: 0, y: 5, z: 0}
+  maxStabilizationTorque: {x: 0, y: 10, z: 0}
   stabilizationYCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -100
+      time: -40
       value: -5
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
+      inSlope: 0.32704404
+      outSlope: 0.32704404
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.075
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0.06152584
-      outSlope: 0.06152584
+      inSlope: 0.007593189
+      outSlope: 0.007593189
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.19166666
+      inWeight: 0.34166667
       outWeight: 0.5083333
     - serializedVersion: 3
-      time: 100
+      time: 40
       value: 5
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
+      inSlope: 0.34669793
+      outSlope: 0.34669793
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0.066666715
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -1891,6 +1891,11 @@ MonoBehaviour:
   maxThrust: 12000
   airDensity: 1.2041
   wingSurface: 18.7
+  wingAspectRatio: 8.29
+  wingEfficiency: 0.64
+  rudderSurface: 0.75
+  rudderAspectRatio: 0.92
+  rudderEfficiency: 1
   rotateYawNormalValue: 0
   RotateYawActionRef: {fileID: -7342158049216349545, guid: c348712bda248c246b8c49b3db54643f,
     type: 3}

@@ -92,6 +92,7 @@ public class PlaneJoystick : MonoBehaviour
     public void OnDeselect()
     {
         returnToTargetRotation = true;
+        planeController.updateGunsShoot(false);
     }
 
 

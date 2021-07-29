@@ -53,10 +53,24 @@ public class PlanePhysics : MonoBehaviour
     // Variables que hay que poner en otros lados
     [SerializeField]
     float maxThrust; // Esto pertenece al motor
+
     [SerializeField]
     float airDensity; // Esto pertenece al mundo
+
     [SerializeField]
     float wingSurface; // Esto pertenece a las alas del avion
+    [SerializeField]
+    float wingAspectRatio; // Esto pertenece a las alas del avion
+    [SerializeField]
+    float wingEfficiency; // Esto pertenece a las alas del avion
+
+    [SerializeField]
+    float rudderSurface; // Esto pertenece a las alas del avion
+    [SerializeField]
+    float rudderAspectRatio; // Esto pertenece a las alas del avion
+    [SerializeField]
+    float rudderEfficiency; // Esto pertenece a las alas del avion
+
     [SerializeField]
     float rotateYawNormalValue = 0;
     [SerializeField]
@@ -171,14 +185,17 @@ public class PlanePhysics : MonoBehaviour
             AngleOfAttack, Vector3.right,
             aileronsLiftAOACurve,
             airDensity,
-            wingSurface
-        );
+            wingSurface,
+            wingAspectRatio,
+            wingEfficiency);
 
         var yawForce = CalculateLift(
             AngleOfAttackYaw, Vector3.up, 
             rudderLiftAOACurve,
             airDensity,
-            wingSurface);
+            rudderSurface,
+            rudderAspectRatio,
+            rudderEfficiency);
 
         Rigidbody.AddRelativeForce(liftForce);
         Rigidbody.AddRelativeForce(yawForce);
@@ -196,7 +213,7 @@ public class PlanePhysics : MonoBehaviour
     ///  <param name="rightAxis">Eje sobre el que se produce la sustentacion</param>
     ///  <param name="aoaCurve">Angulo de ataque sobre el aire</param>
     ///  <param name="wingSurface">Area del ala sobre la que se aplica esta formula</param>
-    Vector3 CalculateLift(float angleOfAttack, Vector3 rightAxis, AnimationCurve aoaCurve, float airDensity, float wingSurface)
+    Vector3 CalculateLift(float angleOfAttack, Vector3 rightAxis, AnimationCurve aoaCurve, float airDensity, float wingSurface, float wingAspectRatio, float wingEfficiency)
     {
         // Proyeccion de la velicidad en el plano YZ (aire)
         Vector3 liftVelocity = Vector3.ProjectOnPlane(LocalVelocity, rightAxis);
@@ -211,12 +228,11 @@ public class PlanePhysics : MonoBehaviour
         Vector3 liftDirection = Vector3.Cross(liftVelocity.normalized, rightAxis);
         Vector3 lift = liftDirection * liftForce;
 
-        /// TODO MEJORA (AÑADIR induced drag)
         // Ahora que tenemos la sustentacion calculada, debemos quitarle la resistencia inducida
         //   inducedDragCoeficient = (Cl^2) / (pi * AR * e)
         // el e, que es el factor de eficiencia no lo necesitamos
         // AR = ratio de aspecto
-        //inducedDragCoeficient += 
+        inducedDragCoeficient += (liftCoefficient * liftCoefficient) / (Mathf.PI * wingAspectRatio * wingEfficiency);
 
         return lift;
     }
@@ -312,6 +328,8 @@ public class PlanePhysics : MonoBehaviour
         Debug.Log("LocalVelocity: "+LocalVelocity + " stabilizationVelocity: " + stabilizationVelocity + "maxStabilizationTorque : " + maxStabilizationTorque);
         */
 
+        Debug.Log("Angular velocity: "+LocalAngularVelocity);
+        Debug.Log("Velocity: "+ LocalVelocity);
         // Modo propio
         Vector3 stabilizationVelocity = new Vector3();
 
@@ -320,6 +338,8 @@ public class PlanePhysics : MonoBehaviour
         stabilizationVelocity.z = Mathf.Clamp(LocalVelocity.z, -maxStabilizationTorque.z, maxStabilizationTorque.z);
 
         Rigidbody.AddRelativeTorque(stabilizationVelocity, ForceMode.Acceleration);
+        Debug.Log("Stabilization Velocity: " + stabilizationVelocity);
+
 
         //Debug.Log("LocalVelocity: " + LocalVelocity + " stabilizationVelocity: " + stabilizationVelocity + "maxStabilizationTorque : " + maxStabilizationTorque);
     }
