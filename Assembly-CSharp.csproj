@@ -77,6 +77,7 @@
     <Compile Include="Assets\Game\Scripts\Plane\PlaneController.cs" />
     <Compile Include="Assets\Game\Scripts\Plane\PlaneJoystick.cs" />
     <Compile Include="Assets\Game\Scripts\Plane\PlaneMixtureControl.cs" />
+    <Compile Include="Assets\Game\Scripts\Plane\PlaneParts\PlanePart.cs" />
     <Compile Include="Assets\Game\Scripts\Plane\PlanePhysics.cs" />
     <Compile Include="Assets\Game\Scripts\Utils\DeleteWithTime.cs" />
     <Compile Include="Assets\Game\Scripts\Utils\Destructible.cs" />
