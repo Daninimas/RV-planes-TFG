@@ -123,7 +123,7 @@ public class PlanePhysics : MonoBehaviour
         //calculate again, so that other systems can read this plane's state
         UpdateState();
 
-        StabilizeFlight(dt);
+        //StabilizeFlight(dt);
     }
 
     /// <summary>
@@ -328,8 +328,8 @@ public class PlanePhysics : MonoBehaviour
         Debug.Log("LocalVelocity: "+LocalVelocity + " stabilizationVelocity: " + stabilizationVelocity + "maxStabilizationTorque : " + maxStabilizationTorque);
         */
 
-        Debug.Log("Angular velocity: "+LocalAngularVelocity);
-        Debug.Log("Velocity: "+ LocalVelocity);
+        /*Debug.Log("Angular velocity: "+LocalAngularVelocity);
+        Debug.Log("Velocity: "+ LocalVelocity);*/
         // Modo propio
         Vector3 stabilizationVelocity = new Vector3();
 
@@ -338,7 +338,7 @@ public class PlanePhysics : MonoBehaviour
         stabilizationVelocity.z = Mathf.Clamp(LocalVelocity.z, -maxStabilizationTorque.z, maxStabilizationTorque.z);
 
         Rigidbody.AddRelativeTorque(stabilizationVelocity, ForceMode.Acceleration);
-        Debug.Log("Stabilization Velocity: " + stabilizationVelocity);
+        //Debug.Log("Stabilization Velocity: " + stabilizationVelocity);
 
 
         //Debug.Log("LocalVelocity: " + LocalVelocity + " stabilizationVelocity: " + stabilizationVelocity + "maxStabilizationTorque : " + maxStabilizationTorque);

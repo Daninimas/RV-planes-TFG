@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
-    public float rateOfFire;
-
     [SerializeField]
     float bulletVelocity;
     [SerializeField]
@@ -14,34 +12,9 @@ public class Gun : MonoBehaviour
     int damage;
     [SerializeField]
     GameObject bulletInstance;
-    
-
-    [Space]
-    public bool shoot = false; // Se activa cuando le mandamos al arma disparar
-
-    // Variables privadas
-    float rateOfFireCounter;
-
-    public int disparosRealizados = 0, impactos = 0;
 
 
-    // Update is called once per frame
-    void Update()
-    {
-        rateOfFireCounter += Time.deltaTime;
-
-        if(rateOfFireCounter >= rateOfFire)
-        {
-            if (shoot)
-            {
-                createShoot();
-
-                rateOfFireCounter = 0f;
-            }
-        }
-    }
-
-    private void createShoot()
+    public void createShoot()
     {
         GameObject newBullet = GameObject.Instantiate(bulletInstance);
         Projectile newBulletProj = newBullet.GetComponent<Projectile>();
@@ -54,14 +27,9 @@ public class Gun : MonoBehaviour
         newBulletProj.aliveTime = bulletAliveTime;
         newBulletProj.damage = damage;
         newBulletProj.velocityMagnitude = bulletVelocity;
-        newBulletProj.borrarEsto = this;
+        //newBulletProj.borrarEsto = this;
         //newBulletProj.GetComponent<Rigidbody>().velocity = newBulletProj.transform.forward * bulletVelocity;
 
-        disparosRealizados++;
-    }
-
-    public void setShoot(bool s)
-    {
-        shoot = s;
+        //disparosRealizados++;
     }
 }

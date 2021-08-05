@@ -12,6 +12,11 @@ public class PlaneController : MonoBehaviour
     [Space]
     [Header("Plane Parts")]
     public Gun[] guns;
+    public float rateOfFire = 0f;
+
+    uint _gunToShoot = 0;
+    float _rateOfFireCounter = 0f;
+    bool _shootGuns = false;
 
     /// <summary>
     /// Pone a disparar o no a todas las armas que tenga este avión
@@ -19,9 +24,26 @@ public class PlaneController : MonoBehaviour
     /// <param name="shoot">Indica si las armas van a disparar o no</param>
     public void updateGunsShoot(bool shoot)
     {
-        foreach(Gun gun in guns)
+        _shootGuns = shoot;
+    }
+
+    void Update()
+    {
+        if (guns.Length > 0)
         {
-            gun.setShoot(shoot);
+            _rateOfFireCounter += Time.deltaTime;
+
+            if (_rateOfFireCounter >= rateOfFire && _shootGuns)
+            {
+                guns[_gunToShoot].createShoot();
+
+                _rateOfFireCounter = 0f;
+
+                // Set next gun to shoot
+                ++_gunToShoot;
+                if (_gunToShoot >= guns.Length)
+                    _gunToShoot = 0;
+            }
         }
     }
 }

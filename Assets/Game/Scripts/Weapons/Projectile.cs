@@ -17,7 +17,7 @@ public class Projectile : MonoBehaviour
     LayerMask bulletLayerMask;
 
 
-    public Gun borrarEsto;
+    //public Gun borrarEsto;
     // Start is called before the first frame update
     void Start()
     {
@@ -52,7 +52,13 @@ public class Projectile : MonoBehaviour
         {
             if(entityHit.collider.gameObject.layer == 9)
             {
-                borrarEsto.impactos++;
+                //borrarEsto.impactos++;
+                Destructible dest = entityHit.collider.GetComponent<Destructible>();
+                if (dest != null)
+                {
+                    // Aplicar daño a entidad
+                    dest.addDamage(this.damage);
+                }
             }
         }
     }

@@ -11,11 +11,14 @@ public class Destructible : MonoBehaviour
     public void addDamage(float damage)
     {
         health -= damage;
+        Debug.Log("Me han dado: " + gameObject.name);
 
-        if(health <= 0)
+        if (health <= 0)
         {
             // Destroy this object
             // Set destroyed model
+
+            Debug.Log("Me destrullo: " + gameObject.name);
         }
     }
 }
