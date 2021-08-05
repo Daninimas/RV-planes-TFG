@@ -897,18 +897,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &650330242 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8757192583558577784, guid: df218edde7092f3468e0ea1328414dc3,
-    type: 3}
-  m_PrefabInstance: {fileID: 8757192584057782010}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36f42e4db26fc7c40a4c421a2e2b9775, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &650330244 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8757192583558577790, guid: df218edde7092f3468e0ea1328414dc3,
@@ -1648,6 +1636,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1267951015}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1344938947 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7764376408247906309, guid: df218edde7092f3468e0ea1328414dc3,
+    type: 3}
+  m_PrefabInstance: {fileID: 8757192584057782010}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3977b40ac2f545b4baf6abd93b8c2a23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1406012321
 GameObject:
   m_ObjectHideFlags: 0
@@ -1871,7 +1871,7 @@ MonoBehaviour:
   angleLimitsY:
     min: -20
     max: 20
-  planeController: {fileID: 650330242}
+  planeController: {fileID: 1344938947}
 --- !u!1 &1547937797
 GameObject:
   m_ObjectHideFlags: 0
@@ -2152,19 +2152,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1717171986}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &324713075641200804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7704605686707020886}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 925761069b3a40e47ae992054306fb31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 5
 --- !u!4 &335047781530451510
 Transform:
   m_ObjectHideFlags: 0
@@ -3518,7 +3505,7 @@ BoxCollider:
   m_GameObject: {fileID: 7704605686432042216}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 8.163635, y: 3.4273643, z: 6.5526123}
   m_Center: {x: 0, y: 1.7059183, z: -1.4247437}
@@ -3533,6 +3520,7 @@ GameObject:
   - component: {fileID: 7704605686432042002}
   - component: {fileID: 7704605686432042007}
   - component: {fileID: 7704605686432042217}
+  - component: {fileID: 7704605686432042218}
   m_Layer: 9
   m_Name: Enemy Plane
   m_TagString: Untagged
@@ -3556,6 +3544,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &7704605686432042218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7704605686432042216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 925761069b3a40e47ae992054306fb31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 10
 --- !u!136 &7704605686707020884
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3580,7 +3581,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7704605686707020887}
   - component: {fileID: 7704605686707020884}
-  - component: {fileID: 324713075641200804}
   m_Layer: 9
   m_Name: bodyCollider
   m_TagString: Untagged
@@ -3739,12 +3739,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 8757192583558577784, guid: df218edde7092f3468e0ea1328414dc3,
+    - target: {fileID: 7764376408247906309, guid: df218edde7092f3468e0ea1328414dc3,
         type: 3}
       propertyPath: joystick
       value: 
       objectReference: {fileID: 1406012328}
-    - target: {fileID: 8757192583558577784, guid: df218edde7092f3468e0ea1328414dc3,
+    - target: {fileID: 7764376408247906309, guid: df218edde7092f3468e0ea1328414dc3,
         type: 3}
       propertyPath: mixtureControl
       value: 

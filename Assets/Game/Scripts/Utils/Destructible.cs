@@ -11,7 +11,7 @@ public class Destructible : MonoBehaviour
     public void addDamage(float damage)
     {
         health -= damage;
-        Debug.Log("Me han dado: " + gameObject.name);
+        Debug.Log("Me han dado: " + gameObject.name + " con un daño de: " + damage);
 
         if (health <= 0)
         {

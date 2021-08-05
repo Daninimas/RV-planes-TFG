@@ -319,7 +319,7 @@ GameObject:
   - component: {fileID: 8757192583558577787}
   - component: {fileID: 8757192583558577786}
   - component: {fileID: 8757192583558577797}
-  - component: {fileID: 8757192583558577784}
+  - component: {fileID: 7764376408247906309}
   m_Layer: 8
   m_Name: Fokker Dr1
   m_TagString: Untagged
@@ -542,7 +542,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  planeController: {fileID: 8757192583558577784}
+  planeController: {fileID: 7764376408247906309}
   controlInput: {x: 0, y: 0, z: 0}
   maxThrust: 12000
   airDensity: 1.2041
@@ -552,9 +552,6 @@ MonoBehaviour:
   rudderSurface: 0.75
   rudderAspectRatio: 0.92
   rudderEfficiency: 1
-  rotateYawNormalValue: 0
-  RotateYawActionRef: {fileID: -7342158049216349545, guid: c348712bda248c246b8c49b3db54643f,
-    type: 3}
 --- !u!54 &8757192583558577797
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -571,7 +568,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8757192583558577784
+--- !u!114 &7764376408247906309
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -580,15 +577,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 8757192583558577796}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36f42e4db26fc7c40a4c421a2e2b9775, type: 3}
+  m_Script: {fileID: 11500000, guid: 3977b40ac2f545b4baf6abd93b8c2a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mixtureControl: {fileID: 0}
-  joystick: {fileID: 0}
   guns:
   - {fileID: 7638394870183008905}
   - {fileID: 186317919212415389}
   rateOfFire: 0.12
+  joystickNormal: {x: 0, y: 0}
+  mixtureControlNormal: 0
+  rotateYawNormal: 0
+  mixtureControl: {fileID: 0}
+  joystick: {fileID: 0}
+  RotateYawActionRef: {fileID: -7342158049216349545, guid: c348712bda248c246b8c49b3db54643f,
+    type: 3}
 --- !u!114 &8757192583813154098
 MonoBehaviour:
   m_ObjectHideFlags: 0

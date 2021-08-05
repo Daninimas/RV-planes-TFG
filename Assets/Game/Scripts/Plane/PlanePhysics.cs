@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.XR.Interaction.Toolkit;
 
 public class PlanePhysics : MonoBehaviour
 {
@@ -71,35 +69,13 @@ public class PlanePhysics : MonoBehaviour
     [SerializeField]
     float rudderEfficiency; // Esto pertenece a las alas del avion
 
-    [SerializeField]
-    float rotateYawNormalValue = 0;
-    [SerializeField]
-    InputActionReference RotateYawActionRef = null;
+    
 
 
     void Start()
     {
         Rigidbody = GetComponent<Rigidbody>();
-
-        /// TODO: Quitar de aqui y poner en las alas
-        // Mejor forma de obtener input con inputXR basado en acciones de esta forma de suscribes cuando se activa y cuando se desactiva
-        // Cuando se pulsa un boton, se llama a una funcion
-        RotateYawActionRef.action.started += UpdateYawNormal;
-        RotateYawActionRef.action.canceled += UpdateYawNormal;
     }
-    private void OnDestroy()
-    {
-        // Desuscribirse de las acciones cuando se destruya el objeto
-        RotateYawActionRef.action.started -= UpdateYawNormal;
-        RotateYawActionRef.action.canceled -= UpdateYawNormal;
-    }
-
-    /// TODO: Quitar de aqui y poner en las alas
-    private void UpdateYawNormal(InputAction.CallbackContext context)
-    {
-        rotateYawNormalValue = context.action.ReadValue<float>();
-    }
-
 
 
     void FixedUpdate()
@@ -132,7 +108,7 @@ public class PlanePhysics : MonoBehaviour
     void UpdateControlInput()
     {
         // X -> Cabeceo    Y -> Guinyada    Z -> Alabeo
-        controlInput = new Vector3(planeController.joystick.joystickNormal.x, rotateYawNormalValue, -planeController.joystick.joystickNormal.y);
+        controlInput = new Vector3(planeController.joystickNormal.x, planeController.rotateYawNormal, -planeController.joystickNormal.y);
     }
 
     /// <summary>
@@ -171,7 +147,7 @@ public class PlanePhysics : MonoBehaviour
     void UpdateThrust()
     {
         //Rigidbody.AddRelativeForce(controller.activateAction.action.ReadValue<float>() * maxThrust * Vector3.forward);
-        Rigidbody.AddRelativeForce(planeController.mixtureControl.mixtureControlNormal * maxThrust * Vector3.forward);
+        Rigidbody.AddRelativeForce(planeController.mixtureControlNormal * maxThrust * Vector3.forward);
     }
 
     /// <summary>
