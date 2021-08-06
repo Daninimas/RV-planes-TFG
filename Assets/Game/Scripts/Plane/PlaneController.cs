@@ -20,6 +20,6 @@ public abstract class PlaneController : MonoBehaviour
     /// Pone a disparar o no a todas las armas que tenga este avión
     /// </summary>
     /// <param name="shoot">Indica si las armas van a disparar o no</param>
-    public abstract void updateGunsShoot(bool shoot);
+    public virtual void updateGunsShoot(bool shoot) { }
 
 }
