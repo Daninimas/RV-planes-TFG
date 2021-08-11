@@ -53,7 +53,7 @@ public class Projectile : MonoBehaviour
             if(entityHit.collider.gameObject.layer == 9)
             {
                 //borrarEsto.impactos++;
-                Destructible dest = entityHit.collider.GetComponent<Destructible>();
+                Health dest = entityHit.collider.GetComponent<Health>();
                 if (dest != null)
                 {
                     // Aplicar daño a entidad

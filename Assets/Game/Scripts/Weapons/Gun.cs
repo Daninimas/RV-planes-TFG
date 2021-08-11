@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
-    [SerializeField]
-    float bulletVelocity;
+    public float bulletVelocity;
     [SerializeField]
     float bulletAliveTime;
     [SerializeField]

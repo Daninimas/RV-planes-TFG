@@ -15,8 +15,6 @@ public class PlaneJoystick : MonoBehaviour
 
     [Header("Variables")]
     [SerializeField]
-    float returningRotationVelocity = 0f;
-    [SerializeField]
     float movingRotationVelocity = 0f;
 
     [SerializeField]

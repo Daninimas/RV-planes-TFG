@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Destructible : MonoBehaviour
+public class Health : MonoBehaviour
 {
 
     [SerializeField] 
     float health;
+
+    public bool isDead = false;
     
     public void addDamage(float damage)
     {
@@ -15,6 +17,7 @@ public class Destructible : MonoBehaviour
 
         if (health <= 0)
         {
+            isDead = true;
             // Destroy this object
             // Set destroyed model
 

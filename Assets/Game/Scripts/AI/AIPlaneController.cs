@@ -25,10 +25,10 @@ public class AIPlaneController : PlaneController
     [SerializeField]
     [Min(1)]
     int predictionFramesJump; // Cuantos frames te saltas entre los pasos de la predicción (a cuantos más, más lejos llega la predicción, pero pierde precisión)
+
+    [Space]
     [SerializeField]
-    GameObject predictionMarker;
-    [SerializeField]
-    float markerSize = 0.005f;
+    GameObject explosionEffect; //Explosion cuando muere
 
     PlanePhysics _planePhysics;
     Vector3 _lastInput;
@@ -42,7 +42,6 @@ public class AIPlaneController : PlaneController
         _planePhysics = this.GetComponent<PlanePhysics>();
         gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, -100);
 
-        predictionMarker.gameObject.SetActive(false);
 
         _bombsCenter = calculateBomsCenterPosition();
 
@@ -50,7 +49,14 @@ public class AIPlaneController : PlaneController
         {
             bomb.transform.parent = null;
         }
-        predictionMarker.transform.parent = null;
+    }
+
+    private void OnDestroy()
+    {
+        for (int i = 0; i < planeBoms.Count; ++i)
+        {
+            Destroy(planeBoms[i]);
+        }
     }
 
     // Update is called once per frame
@@ -62,9 +68,10 @@ public class AIPlaneController : PlaneController
         CalculateThrottle();
         CalculateSteering(dt);
 
-
         // For the bombs
         manageBombs(dt);
+
+        manageHealth();
     }
 
 
@@ -152,9 +159,8 @@ public class AIPlaneController : PlaneController
         if (planeBoms.Count > 0) {
             _currentBombColdown += dt;
 
-            if (predictBombDrop(_bombsCenter + transform.position)) // Comprobar si va a caer la bomba en un punto donde tiene que bombardear
+            if (!_bombDropActivated && predictBombDrop(_bombsCenter + transform.position)) // Comprobar si va a caer la bomba en un punto donde tiene que bombardear
             {
-                Debug.Log("Suelto bombas");
                 _bombDropActivated = true;
             }
 
@@ -166,18 +172,21 @@ public class AIPlaneController : PlaneController
                 _currentBombColdown = 0f;
             }
         }
+        else if (_bombDropActivated)
+        {
+            // Cuando ha acabado de bombardear se va a una nueva posicion
+            pruebaTargetPosition.position += new Vector3(1000, 0, 0);
+        }
     }
     
     bool predictBombDrop(Vector3 bombsCenterPosition)
     {
-        Debug.Log(bombsCenterPosition);
         Vector3 lastPosition = bombsCenterPosition;
         float stepSize = Time.fixedDeltaTime * predictionFramesJump;
         Vector3 predictedBombVelocity = this.GetComponent<Rigidbody>().velocity;
         LayerMask layermask = Utils.GetPhysicsLayerMask(planeBoms[0].gameObject.layer);
-        bool hitSomething = false;
 
-        for (int step = 0; step < maxPredictionSteps && !hitSomething; ++step)
+        for (int step = 0; step < maxPredictionSteps; ++step)
         {
             //predictionMarker.gameObject.SetActive(false);
 
@@ -191,20 +200,14 @@ public class AIPlaneController : PlaneController
             {
                 if (entityHit.collider.gameObject.layer != gameObject.layer)
                 {
-                    predictionMarker.gameObject.SetActive(true);
-                    predictionMarker.transform.position = entityHit.point;
-                    predictionMarker.transform.forward = entityHit.normal;
-                    float scale = 0.005f * Vector3.Distance(Camera.main.transform.position, entityHit.point);
-                    predictionMarker.transform.localScale = new Vector3(scale, scale, scale);
-                    hitSomething = true;
-                    break;
+                    return true;
                 }
             }
 
             lastPosition = newPosition;
         }
 
-        return hitSomething;
+        return false;
     }
 
 
@@ -220,5 +223,23 @@ public class AIPlaneController : PlaneController
         center /= planeBoms.Count;
 
         return center;
+    }
+
+    
+    void manageHealth()
+    {
+        Health planeHealth = gameObject.GetComponent<Health>();
+
+        if (planeHealth != null)
+        {
+            if(planeHealth.isDead)
+            {
+                GameObject expEffect = Instantiate(explosionEffect, transform.position, transform.rotation);
+                expEffect.AddComponent<DeleteWithTime>().time = 2f;
+
+                // Destruir este objeto
+                Destroy(gameObject);
+            }
+        }
     }
 }

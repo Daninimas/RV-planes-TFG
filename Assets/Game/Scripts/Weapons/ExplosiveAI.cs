@@ -18,12 +18,13 @@ public class ExplosiveAI : MonoBehaviour
     private bool _dropped = false;
     private GameObject _plane;
     private Vector3 _lastPosition;
-
+    private int _planeLayer;
 
 
     private void Start()
     {
         _plane = gameObject.GetComponent<ParentConstraint>().GetSource(0).sourceTransform.gameObject;
+        _planeLayer = _plane.layer;
 
         _lastPosition = transform.position;
     }
@@ -50,7 +51,7 @@ public class ExplosiveAI : MonoBehaviour
             RaycastHit[] entitiesHit = Physics.RaycastAll(_lastPosition, (transform.position - _lastPosition).normalized, (transform.position - _lastPosition).magnitude, Utils.GetPhysicsLayerMask(gameObject.layer));
             foreach (RaycastHit entityHit in entitiesHit)
             {
-                if (entityHit.collider.gameObject.layer != _plane.layer)
+                if (entityHit.collider.gameObject.layer != _planeLayer)
                 {
                     activate();
 
@@ -75,7 +76,7 @@ public class ExplosiveAI : MonoBehaviour
         foreach (Collider nearbyObject in collidersToDamage)
         {
             // Dañar estas entidades
-            Destructible dest = nearbyObject.GetComponent<Destructible>();
+            Health dest = nearbyObject.GetComponent<Health>();
             if (dest != null)
             {
                 // Calcular daño con la distancia al centro de la explosion
@@ -119,7 +120,7 @@ public class ExplosiveAI : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         // Activar cuando toque algo que no sea el avion de la IA
-        if (collision.gameObject.layer != _plane.layer && _dropped)
+        if (collision.gameObject.layer != _planeLayer && _dropped)
         {
             activate();
         }

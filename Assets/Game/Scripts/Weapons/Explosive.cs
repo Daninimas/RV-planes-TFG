@@ -97,7 +97,7 @@ public class Explosive : MonoBehaviour
         foreach (Collider nearbyObject in collidersToDamage)
         {
             // Dañar estas entidades
-            Destructible dest = nearbyObject.GetComponent<Destructible>();
+            Health dest = nearbyObject.GetComponent<Health>();
             if (dest != null)
             {
                 // Calcular daño con la distancia al centro de la explosion
