@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class AIPlaneController : PlaneController
 {
@@ -11,9 +12,29 @@ public class AIPlaneController : PlaneController
     public Vector3 targetPosition;
     public Transform pruebaTargetPosition;
 
+    [Space]
+    [Header("Plane IA Bombs")]
+    [SerializeField]
+    List<ExplosiveAI> planeBoms;
+    [SerializeField]
+    [Min(0)]
+    float bombDropCooldown;
+    [Header("Prediction variables")]
+    [SerializeField]
+    int maxPredictionSteps;
+    [SerializeField]
+    [Min(1)]
+    int predictionFramesJump; // Cuantos frames te saltas entre los pasos de la predicción (a cuantos más, más lejos llega la predicción, pero pierde precisión)
+    [SerializeField]
+    GameObject predictionMarker;
+    [SerializeField]
+    float markerSize = 0.005f;
 
     PlanePhysics _planePhysics;
     Vector3 _lastInput;
+    Vector3 _bombsCenter; // La posicion media de las bombas sin lanzar (Sirve para la predicción) -> Esto es en posicion local
+    float _currentBombColdown = 0f;
+    bool _bombDropActivated = false;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +42,15 @@ public class AIPlaneController : PlaneController
         _planePhysics = this.GetComponent<PlanePhysics>();
         gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, -100);
 
+        predictionMarker.gameObject.SetActive(false);
+
+        _bombsCenter = calculateBomsCenterPosition();
+
+        foreach(ExplosiveAI bomb in planeBoms)
+        {
+            bomb.transform.parent = null;
+        }
+        predictionMarker.transform.parent = null;
     }
 
     // Update is called once per frame
@@ -31,6 +61,10 @@ public class AIPlaneController : PlaneController
 
         CalculateThrottle();
         CalculateSteering(dt);
+
+
+        // For the bombs
+        manageBombs(dt);
     }
 
 
@@ -109,5 +143,82 @@ public class AIPlaneController : PlaneController
         this.joystickNormal.x = input.x;
         this.rotateYawNormal = input.y;
         this.joystickNormal.y = input.z;*/
+    }
+
+
+
+    void manageBombs(float dt)
+    {
+        if (planeBoms.Count > 0) {
+            _currentBombColdown += dt;
+
+            if (predictBombDrop(_bombsCenter + transform.position)) // Comprobar si va a caer la bomba en un punto donde tiene que bombardear
+            {
+                Debug.Log("Suelto bombas");
+                _bombDropActivated = true;
+            }
+
+            if(_bombDropActivated && _currentBombColdown > bombDropCooldown)
+            {
+                planeBoms[0].dropBomb();
+                planeBoms.RemoveAt(0);
+                calculateBomsCenterPosition();
+                _currentBombColdown = 0f;
+            }
+        }
+    }
+    
+    bool predictBombDrop(Vector3 bombsCenterPosition)
+    {
+        Debug.Log(bombsCenterPosition);
+        Vector3 lastPosition = bombsCenterPosition;
+        float stepSize = Time.fixedDeltaTime * predictionFramesJump;
+        Vector3 predictedBombVelocity = this.GetComponent<Rigidbody>().velocity;
+        LayerMask layermask = Utils.GetPhysicsLayerMask(planeBoms[0].gameObject.layer);
+        bool hitSomething = false;
+
+        for (int step = 0; step < maxPredictionSteps && !hitSomething; ++step)
+        {
+            //predictionMarker.gameObject.SetActive(false);
+
+            predictedBombVelocity += Physics.gravity * stepSize;
+            Vector3 newPosition = lastPosition + predictedBombVelocity * stepSize;
+
+            // Calcular si ha colisionado con algo entre estos puntos
+            RaycastHit[] entitiesHit = Physics.RaycastAll(lastPosition, (newPosition - lastPosition).normalized, (newPosition - lastPosition).magnitude, layermask);
+            // Ponemos el marcador en el primer objeto con el que choca
+            foreach (RaycastHit entityHit in entitiesHit)
+            {
+                if (entityHit.collider.gameObject.layer != gameObject.layer)
+                {
+                    predictionMarker.gameObject.SetActive(true);
+                    predictionMarker.transform.position = entityHit.point;
+                    predictionMarker.transform.forward = entityHit.normal;
+                    float scale = 0.005f * Vector3.Distance(Camera.main.transform.position, entityHit.point);
+                    predictionMarker.transform.localScale = new Vector3(scale, scale, scale);
+                    hitSomething = true;
+                    break;
+                }
+            }
+
+            lastPosition = newPosition;
+        }
+
+        return hitSomething;
+    }
+
+
+    Vector3 calculateBomsCenterPosition()
+    {
+        Vector3 center = new Vector3();
+
+        foreach(ExplosiveAI bomb in planeBoms)
+        {
+            ParentConstraint constraint = bomb.GetComponent<ParentConstraint>();
+            center += constraint.translationOffsets[0];
+        }
+        center /= planeBoms.Count;
+
+        return center;
     }
 }
