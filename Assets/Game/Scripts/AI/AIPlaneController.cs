@@ -9,8 +9,7 @@ public class AIPlaneController : PlaneController
     [SerializeField]
     private Limit2D velocityLimits;
 
-    public Vector3 targetPosition;
-    public Transform pruebaTargetPosition;
+    public List<Vector3> targetPositions;
 
     [Space]
     [Header("Plane IA Bombs")]
@@ -62,11 +61,11 @@ public class AIPlaneController : PlaneController
     // Update is called once per frame
     void FixedUpdate()
     {
-        targetPosition = pruebaTargetPosition.position;
         float dt = Time.fixedDeltaTime;
 
         CalculateThrottle();
-        CalculateSteering(dt);
+        if(targetPositions.Count > 0)
+            CalculateSteering(dt);
 
         // For the bombs
         manageBombs(dt);
@@ -100,7 +99,7 @@ public class AIPlaneController : PlaneController
         float rollBias = 0.01f; // Para evitar que esté haciendo pequeños giros todo el rato
         float steeringSpeed = 5f;
 
-        var error = targetPosition - transform.position;
+        var error = targetPositions[0] - transform.position;
         error = Quaternion.Inverse(transform.rotation) * error;   //transform into local space
 
         var errorDir = error.normalized;
@@ -156,9 +155,10 @@ public class AIPlaneController : PlaneController
 
     void manageBombs(float dt)
     {
-        if (planeBoms.Count > 0) {
-            _currentBombColdown += dt;
+        _currentBombColdown += dt;
 
+        if (planeBoms.Count > 0)
+        {
             if (!_bombDropActivated && predictBombDrop(_bombsCenter + transform.position)) // Comprobar si va a caer la bomba en un punto donde tiene que bombardear
             {
                 _bombDropActivated = true;
@@ -172,10 +172,11 @@ public class AIPlaneController : PlaneController
                 _currentBombColdown = 0f;
             }
         }
-        else if (_bombDropActivated)
+        else if (_bombDropActivated && _currentBombColdown > bombDropCooldown)
         {
             // Cuando ha acabado de bombardear se va a una nueva posicion
-            pruebaTargetPosition.position += new Vector3(1000, 0, 0);
+            targetPositions.RemoveAt(0);
+            _bombDropActivated = false;
         }
     }
     
