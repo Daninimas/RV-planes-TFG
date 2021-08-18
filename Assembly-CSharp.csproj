@@ -75,6 +75,7 @@
     <Compile Include="Assets\EffectExamples\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\Game\Scripts\AI\AIPlaneController.cs" />
     <Compile Include="Assets\Game\Scripts\AI\EnemyTurret.cs" />
+    <Compile Include="Assets\Game\Scripts\AI\Marker.cs" />
     <Compile Include="Assets\Game\Scripts\Input\InputControllerManager.cs" />
     <Compile Include="Assets\Game\Scripts\Plane\PlaneController.cs" />
     <Compile Include="Assets\Game\Scripts\Plane\PlaneControllerPlayer.cs" />
@@ -101,10 +102,12 @@
     <Compile Include="Assets\Sketchfab For Unity\Scripts\SketchfabLogger.cs" />
     <Compile Include="Assets\Sketchfab For Unity\Scripts\SketchfabPlugin.cs" />
     <Compile Include="Assets\Sketchfab For Unity\Scripts\SketchfabUI.cs" />
+    <None Include="Assets\Samples\Terrain Tools\0.1.0-preview\Terrain Assets\ThirdPartyNotices.txt" />
     <None Include="Assets\Sketchfab For Unity\Dependencies\Shaders\GLTFFlipTexture.shader" />
     <None Include="Assets\Sketchfab For Unity\Dependencies\Shaders\GLTFColorSpace.cginc" />
     <None Include="Assets\Sketchfab For Unity\Dependencies\Shaders\GLTFPackOccMetalRough.shader" />
     <None Include="Assets\Game\Models\Fokker Dr1\BLENDSWAP_LICENSE.txt" />
+    <None Include="Assets\SkySerie Freebie\Hdri setup.txt" />
     <None Include="Assets\Sketchfab For Unity\Dependencies\Shaders\GLTFBumpToNormal.shader" />
     <None Include="Assets\EffectExamples\Shared\Shaders\SurfaceShader_VC.shader" />
     <Reference Include="UnityEngine">
