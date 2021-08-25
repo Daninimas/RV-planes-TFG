@@ -37,6 +37,19 @@ public class PlaneJoystick : MonoBehaviour
         startRotation = transform.localRotation;
 
         gameObject.GetComponent<XRSimpleInteractable>().selectEntered.AddListener(OnSelect);
+
+        // Set in center rotation
+        float centerX = (angleLimitsX.min + angleLimitsX.max) / 2f;
+        float centerY = (angleLimitsY.min + angleLimitsY.max) / 2f;
+        transform.localEulerAngles = new Vector3(centerX, centerY, 0f);
+    }
+
+    private void OnDrawGizmos()
+    {
+        // Set in center rotation
+        float centerX = (angleLimitsX.min + angleLimitsX.max) / 2f;
+        float centerY = (angleLimitsY.min + angleLimitsY.max) / 2f;
+        transform.localEulerAngles = new Vector3(centerX, centerY, 0f);
     }
 
 

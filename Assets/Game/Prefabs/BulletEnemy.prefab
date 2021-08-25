@@ -108,4 +108,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocityMagnitude: 0
   damage: 0
-  aliveTime: 1
+  aliveTime: 5

@@ -658,7 +658,7 @@ MonoBehaviour:
   guns:
   - {fileID: 6156270221947587821}
   rateOfFire: 0.3
-  range: 200
+  range: 270
   aimingLimitsX:
     min: -180
     max: 180
@@ -752,7 +752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 925761069b3a40e47ae992054306fb31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
+  health: 3
   isDead: 0
 --- !u!114 &3957810842918457463
 MonoBehaviour:

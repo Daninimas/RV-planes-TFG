@@ -47,7 +47,7 @@ public class PlaneMixtureControl : MonoBehaviour
     }
 
     
-    private void OnDrawGizmos()
+    /*private void OnDrawGizmos()
     {
         if (target != null)
         {
@@ -140,8 +140,8 @@ public class PlaneMixtureControl : MonoBehaviour
                 rotation = angleDifference;
             transform.localEulerAngles = new Vector3(rotation + currentAngleX, 0f, 90f); // Asigno esto antes de la velocidad para que no me de problemas con el cambio de angulos de unity
             Debug.Log("Objective angle: " + transform.localEulerAngles.x + " Current angle: " + currentAngleX + " Rotation: " + rotation + " final angle = " + (rotation + currentAngleX));*/
-        }
-    }
+        //}
+   // }
 
     // Update is called once per frame
     void LateUpdate()
