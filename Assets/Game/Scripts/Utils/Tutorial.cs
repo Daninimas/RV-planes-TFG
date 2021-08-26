@@ -31,6 +31,12 @@ public class Tutorial : MonoBehaviour
     List<GameObject> rings;
     [SerializeField]
     GameObject tanksParent;
+    [SerializeField]
+    GameObject bomb;
+    [SerializeField]
+    GameObject enemyPosition;
+    [SerializeField]
+    GameObject planesParent;
 
     int state = 0;
     List<GameObject> greenObjects = new List<GameObject>(); // Los objetos que pintamos de verde para el usuario
@@ -52,6 +58,9 @@ public class Tutorial : MonoBehaviour
         }
 
         tanksParent.SetActive(false);
+        bomb.SetActive(false);
+        planesParent.SetActive(false);
+        enemyPosition.transform.GetChild(0).gameObject.SetActive(false); // quitar el marcador de la base enemiga
     }
 
     // Update is called once per frame
@@ -143,7 +152,16 @@ public class Tutorial : MonoBehaviour
                 if (tanksParent.transform.childCount >= 0)
                 {
                     ++state;
-                    Invoke("changeState", 1f);
+                    Invoke("changeState", 0.5f);
+                    changinState = true;
+                }
+                break;
+
+            case 6: // Bombardear una zona
+                if (enemyPosition == null)
+                {
+                    ++state;
+                    Invoke("changeState", 0.5f);
                     changinState = true;
                 }
                 break;
@@ -215,6 +233,22 @@ public class Tutorial : MonoBehaviour
 
                     tanksParent.SetActive(true);
                     break;
+
+                case 6: // Bombardear una zona
+                    tutorialText.GetComponent<TMPro.TextMeshProUGUI>().text = "Pick the bomb and drop it in the enemy position!";
+                    textCanvas.parent = yawPosition.transform;
+
+                    bomb.SetActive(true);
+                    greenObjects.Add(bomb);
+                    enemyPosition.transform.GetChild(0).gameObject.SetActive(true);
+                    break;
+
+                case 7: // Oleadas infinitas?
+                    tutorialText.GetComponent<TMPro.TextMeshProUGUI>().text = "Destroy the enemy before they destroy our base!";
+                    textCanvas.parent = yawPosition.transform;
+
+                    planesParent.SetActive(true);
+                    break;
             }
         }
 
@@ -224,15 +258,18 @@ public class Tutorial : MonoBehaviour
     void setAllTutorialMaterial()
     {
         foreach(GameObject tutorialObject in greenObjects) {
-            // Le añade un material extra para que se renderize con el último
-            MeshRenderer mesh = tutorialObject.GetComponent<MeshRenderer>();
-
-            if (mesh.materials.Length < 2)
+            if (tutorialObject != null)
             {
-                List<Material> list = new List<Material>(mesh.materials);
-                list.Add(tutorialMaterial);
+                // Le añade un material extra para que se renderize con el último
+                MeshRenderer mesh = tutorialObject.GetComponent<MeshRenderer>();
 
-                mesh.materials = list.ToArray();
+                if (mesh.materials.Length < 2)
+                {
+                    List<Material> list = new List<Material>(mesh.materials);
+                    list.Add(tutorialMaterial);
+
+                    mesh.materials = list.ToArray();
+                }
             }
         }
     }

@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-
     [SerializeField] 
     float health;
+    [SerializeField]
+    bool destroyWhenDie = false;
+
 
     public bool isDead = false;
     
