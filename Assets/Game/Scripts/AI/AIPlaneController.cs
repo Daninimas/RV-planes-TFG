@@ -34,6 +34,7 @@ public class AIPlaneController : PlaneController
     Vector3 _bombsCenter; // La posicion media de las bombas sin lanzar (Sirve para la predicción) -> Esto es en posicion local
     float _currentBombColdown = 0f;
     bool _bombDropActivated = false;
+    Health planeHealth;
 
     // Start is called before the first frame update
     void Start()
@@ -48,6 +49,8 @@ public class AIPlaneController : PlaneController
         {
             bomb.transform.parent = null;
         }
+
+        planeHealth = gameObject.GetComponent<Health>();
     }
 
     private void OnDestroy()
@@ -229,8 +232,6 @@ public class AIPlaneController : PlaneController
     
     void manageHealth()
     {
-        Health planeHealth = gameObject.GetComponent<Health>();
-
         if (planeHealth != null)
         {
             if(planeHealth.isDead)

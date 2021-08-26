@@ -14,6 +14,8 @@ public class Tutorial : MonoBehaviour
     Vector3 textPositionOffset;
     [SerializeField]
     PlaneControllerPlayer planeData;
+    [SerializeField]
+    Transform textFacingPosition;
 
     [Space]
     [Header("Tutorial Objects")]
@@ -27,42 +29,45 @@ public class Tutorial : MonoBehaviour
     GameObject[] playerHands;
     [SerializeField]
     List<GameObject> rings;
+    [SerializeField]
+    GameObject tanksParent;
 
     int state = 0;
-    Transform targetForText;
     List<GameObject> greenObjects = new List<GameObject>(); // Los objetos que pintamos de verde para el usuario
     int lastState = -1;
     bool changinState = false;
     bool yawRight = false;
     bool yawLeft = false;
+    Transform textCanvas;
 
     private void Start()
     {
+        textCanvas = tutorialText.transform.parent.transform;
+
         changeState(); // To set the first state
 
         foreach(GameObject ring in rings)
         {
             ring.SetActive(false);
         }
+
+        tanksParent.SetActive(false);
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        updateTutorialText();
+        updateTextRotation();
 
         if(!changinState)
             doStateSpecificActions();
     }
 
-    void updateTutorialText()
+    void updateTextRotation()
     {
-        tutorialText.transform.position = targetForText.transform.position + textPositionOffset;
-        // Look to camera
-        tutorialText.transform.LookAt(Camera.main.transform.position);
-        tutorialText.transform.Rotate(new Vector3(0f, 180f, 0f));
+        textCanvas.localPosition = textPositionOffset;
+        textCanvas.LookAt(textFacingPosition);
     }
-
 
     void doStateSpecificActions()
     {
@@ -123,7 +128,24 @@ public class Tutorial : MonoBehaviour
                     Invoke("changeState", 0.2f);
                     changinState = true;
                 }
+                break;
 
+            case 4:
+                if (planeData.shooting)
+                {
+                    ++state;
+                    Invoke("changeState", 1f);
+                    changinState = true;
+                }
+                break;
+
+            case 5:
+                if (tanksParent.transform.childCount >= 0)
+                {
+                    ++state;
+                    Invoke("changeState", 1f);
+                    changinState = true;
+                }
                 break;
         }
     }
@@ -140,23 +162,27 @@ public class Tutorial : MonoBehaviour
             { // Para añadir las nuevas coas al cambiar de estado
                 case 0: // Mixture control
                     tutorialText.GetComponent<TMPro.TextMeshProUGUI>().text = "Pick and push the Mixture Control to accelerate the plane";
-                    targetForText = mixtureControl.GetComponent<XRSimpleInteractable>().colliders[0].transform;
 
-                    greenObjects.Add(targetForText.gameObject);
+                    Collider mixtureCtrlCollider = mixtureControl.GetComponent<XRSimpleInteractable>().colliders[0];
+                    textCanvas.parent = mixtureCtrlCollider.transform;
+
+                    greenObjects.Add(mixtureCtrlCollider.gameObject);
                     setAllTutorialMaterial();
                     break;
 
                 case 1: // Joystick
                     tutorialText.GetComponent<TMPro.TextMeshProUGUI>().text = "Pick and move the Joystick to control the plane";
-                    targetForText = planeJoystick.GetComponent<XRSimpleInteractable>().colliders[0].transform;
 
-                    greenObjects.Add(targetForText.gameObject);
+                    Collider joystickCtrlCollider = planeJoystick.GetComponent<XRSimpleInteractable>().colliders[0];
+                    textCanvas.parent = joystickCtrlCollider.transform;
+
+                    greenObjects.Add(joystickCtrlCollider.gameObject);
                     setAllTutorialMaterial();
                     break;
 
                 case 2: // guiñada
                     tutorialText.GetComponent<TMPro.TextMeshProUGUI>().text = "Press X or A to make the Yaw turn";
-                    targetForText = yawPosition.transform;
+                    textCanvas.parent = yawPosition.transform;
 
                     yawRight = false;
                     yawLeft = false;
@@ -170,9 +196,24 @@ public class Tutorial : MonoBehaviour
 
                 case 3: // Ir a los aros
                     tutorialText.GetComponent<TMPro.TextMeshProUGUI>().text = "Go through the rings!";
-                    targetForText = yawPosition.transform;
+                    textCanvas.parent = yawPosition.transform;
 
                     rings[0].SetActive(true);
+                    break;
+
+                case 4: // disparar
+                    tutorialText.GetComponent<TMPro.TextMeshProUGUI>().text = "Press the trigger while holding the joystick to SHOOT";
+                    textCanvas.parent = yawPosition.transform;
+
+                    greenObjects.Add(planeJoystick.GetComponent<XRSimpleInteractable>().colliders[0].gameObject);
+                    setAllTutorialMaterial();
+                    break;
+
+                case 5: // disparar a los tanques
+                    tutorialText.GetComponent<TMPro.TextMeshProUGUI>().text = "Shoot the enemy tanks!";
+                    textCanvas.parent = yawPosition.transform;
+
+                    tanksParent.SetActive(true);
                     break;
             }
         }

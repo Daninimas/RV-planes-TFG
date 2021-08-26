@@ -16,7 +16,7 @@ public class PlaneControllerPlayer : PlaneController
 
     uint _gunToShoot = 0;
     float _rateOfFireCounter = 0f;
-    bool _shootGuns = false;
+    public bool shooting = false;
 
 
     void Start()
@@ -31,7 +31,7 @@ public class PlaneControllerPlayer : PlaneController
     /// <param name="shoot">Indica si las armas van a disparar o no</param>
     public override void updateGunsShoot(bool shoot)
     {
-        _shootGuns = shoot;
+        shooting = shoot;
     }
 
 
@@ -50,7 +50,7 @@ public class PlaneControllerPlayer : PlaneController
         {
             _rateOfFireCounter += Time.deltaTime;
 
-            if (_rateOfFireCounter >= rateOfFire && _shootGuns)
+            if (_rateOfFireCounter >= rateOfFire && shooting)
             {
                 guns[_gunToShoot].createShoot();
 
