@@ -45,9 +45,13 @@ public class Tutorial : MonoBehaviour
     bool yawRight = false;
     bool yawLeft = false;
     Transform textCanvas;
+    bool changedBombText = false;
+    AudioSource _audioSource;
 
     private void Start()
     {
+        _audioSource = this.GetComponent<AudioSource>();
+
         textCanvas = tutorialText.transform.parent.transform;
 
         changeState(); // To set the first state
@@ -66,7 +70,7 @@ public class Tutorial : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        updateTextRotation();
+        //updateTextRotation();
 
         if(!changinState)
             doStateSpecificActions();
@@ -128,7 +132,8 @@ public class Tutorial : MonoBehaviour
                     {
                         Destroy(rings[0]);
                         rings.RemoveAt(0);
-                        rings[0].SetActive(true);
+                        if(rings.Count > 0)
+                            rings[0].SetActive(true);
                     }
                 }
                 else
@@ -149,7 +154,7 @@ public class Tutorial : MonoBehaviour
                 break;
 
             case 5:
-                if (tanksParent.transform.childCount >= 0)
+                if (tanksParent.transform.childCount <= 0)
                 {
                     ++state;
                     Invoke("changeState", 0.5f);
@@ -158,6 +163,11 @@ public class Tutorial : MonoBehaviour
                 break;
 
             case 6: // Bombardear una zona
+                if(!changedBombText && bomb.GetComponent<Explosive>()._dropped)
+                {
+                    textCanvas.parent = yawPosition.transform;
+                    changedBombText = true;
+                }
                 if (enemyPosition == null)
                 {
                     ++state;
@@ -173,6 +183,7 @@ public class Tutorial : MonoBehaviour
     {
         if (state != lastState)
         {
+            _audioSource.Play();
             deleteAllTutorialMaterial();
             changinState = false;
 
@@ -236,7 +247,7 @@ public class Tutorial : MonoBehaviour
 
                 case 6: // Bombardear una zona
                     tutorialText.GetComponent<TMPro.TextMeshProUGUI>().text = "Pick the bomb and drop it in the enemy position!";
-                    textCanvas.parent = yawPosition.transform;
+                    textCanvas.parent = bomb.transform;
 
                     bomb.SetActive(true);
                     greenObjects.Add(bomb);
@@ -251,8 +262,8 @@ public class Tutorial : MonoBehaviour
                     break;
             }
         }
-
         lastState = state;
+        updateTextRotation();
     }
 
     void setAllTutorialMaterial()

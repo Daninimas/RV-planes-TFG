@@ -58,6 +58,11 @@ public class InputControllerManager : MonoBehaviour
     void Update()
     {
         UpdateHandAnimation();
+
+        if (Input.GetKey("escape"))
+        {
+            Application.Quit();
+        }
     }
 
     void UpdateHandAnimation()

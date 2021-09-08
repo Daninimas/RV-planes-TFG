@@ -15,7 +15,7 @@ public class Explosive : MonoBehaviour
 
     private bool _active = false;
     private float _currentTime = 0f;
-    private bool _dropped = false;
+    public bool _dropped = false;
     private GameObject _plane;
     private Vector3 _lastPosition;
     private bool _isBeingPicked = false;

@@ -24,6 +24,10 @@ public class Health : MonoBehaviour
             // Set destroyed model
 
             Debug.Log("Me destrullo: " + gameObject.name);
+            if (destroyWhenDie)
+            {
+                Destroy(this.gameObject);
+            }
         }
     }
 }
