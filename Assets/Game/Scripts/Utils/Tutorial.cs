@@ -64,7 +64,7 @@ public class Tutorial : MonoBehaviour
         tanksParent.SetActive(false);
         bomb.SetActive(false);
         planesParent.SetActive(false);
-        enemyPosition.transform.GetChild(0).gameObject.SetActive(false); // quitar el marcador de la base enemiga
+        enemyPosition.GetComponent<MarkerCreator>().SetMarkerActive(false); // quitar el marcador de la base enemiga
     }
 
     // Update is called once per frame
@@ -251,7 +251,7 @@ public class Tutorial : MonoBehaviour
 
                     bomb.SetActive(true);
                     greenObjects.Add(bomb);
-                    enemyPosition.transform.GetChild(0).gameObject.SetActive(true);
+                    enemyPosition.GetComponent<MarkerCreator>().SetMarkerActive(true);
                     break;
 
                 case 7: // Oleadas infinitas?

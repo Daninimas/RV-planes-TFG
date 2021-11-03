@@ -77,6 +77,7 @@
     <Compile Include="Assets\Game\Scripts\AI\EnemyTurret.cs" />
     <Compile Include="Assets\Game\Scripts\AI\Marker.cs" />
     <Compile Include="Assets\Game\Scripts\AI\TankController.cs" />
+    <Compile Include="Assets\Game\Scripts\GUI\MarkerCreator.cs" />
     <Compile Include="Assets\Game\Scripts\Input\InputControllerManager.cs" />
     <Compile Include="Assets\Game\Scripts\Plane\PlaneController.cs" />
     <Compile Include="Assets\Game\Scripts\Plane\PlaneControllerPlayer.cs" />
