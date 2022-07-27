@@ -194,6 +194,7 @@ public class Tutorial : MonoBehaviour
 
                     Collider mixtureCtrlCollider = mixtureControl.GetComponent<XRSimpleInteractable>().colliders[0];
                     textCanvas.parent = mixtureCtrlCollider.transform;
+                    textCanvas.GetComponent<PlayerFacing>().onMovingObject = true;
 
                     greenObjects.Add(mixtureCtrlCollider.gameObject);
                     setAllTutorialMaterial();
@@ -204,6 +205,7 @@ public class Tutorial : MonoBehaviour
 
                     Collider joystickCtrlCollider = planeJoystick.GetComponent<XRSimpleInteractable>().colliders[0];
                     textCanvas.parent = joystickCtrlCollider.transform;
+                    textCanvas.GetComponent<PlayerFacing>().onMovingObject = false;
 
                     greenObjects.Add(joystickCtrlCollider.gameObject);
                     setAllTutorialMaterial();
@@ -248,6 +250,7 @@ public class Tutorial : MonoBehaviour
                 case 6: // Bombardear una zona
                     tutorialText.GetComponent<TMPro.TextMeshProUGUI>().text = "Pick the bomb and drop it in the enemy position!";
                     textCanvas.parent = bomb.transform;
+                    textCanvas.GetComponent<PlayerFacing>().onMovingObject = true;
 
                     bomb.SetActive(true);
                     greenObjects.Add(bomb);
@@ -257,6 +260,7 @@ public class Tutorial : MonoBehaviour
                 case 7: // Oleadas infinitas?
                     tutorialText.GetComponent<TMPro.TextMeshProUGUI>().text = "Destroy the enemy before they destroy our base!";
                     textCanvas.parent = yawPosition.transform;
+                    textCanvas.GetComponent<PlayerFacing>().onMovingObject = false;
 
                     planesParent.SetActive(true);
                     break;

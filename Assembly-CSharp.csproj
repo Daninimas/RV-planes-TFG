@@ -94,6 +94,7 @@
     <Compile Include="Assets\Game\Scripts\Weapons\ExplosiveAI.cs" />
     <Compile Include="Assets\Game\Scripts\Weapons\Gun.cs" />
     <Compile Include="Assets\Game\Scripts\Weapons\Projectile.cs" />
+    <Compile Include="Assets\PlayerFacing.cs" />
     <Compile Include="Assets\Ring.cs" />
     <Compile Include="Assets\Sketchfab For Unity\Scripts\AssetBrowser\SketchfabBrowserManager.cs" />
     <Compile Include="Assets\Sketchfab For Unity\Scripts\AssetBrowser\SketchfabBrowserWindow.cs" />
